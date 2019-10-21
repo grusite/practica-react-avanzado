@@ -3,14 +3,21 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './store'
 
-import './index.css'
+// import './index.css'
 import App from './components/app/App'
 import * as serviceWorker from './serviceWorker'
 
+import theme from './assets/theme'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import { ThemeProvider } from '@material-ui/styles'
+
 ReactDOM.render(
-  <Provider store={configureStore()}>
-    <App />
-  </Provider>,
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <Provider store={configureStore()}>
+      <App />
+    </Provider>
+  </ThemeProvider>,
   document.getElementById('root')
 )
 
