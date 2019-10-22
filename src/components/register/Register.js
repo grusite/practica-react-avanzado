@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -10,50 +11,31 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
+import InputLabel from '@material-ui/core/InputLabel'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
 
 import { connect } from 'react-redux'
-import { simpleAction } from '../../actions/actions'
+import { login } from '../../actions/actions'
+
+import { getTags } from '../../services/AdsAPIService'
+
+import './register.css'
 
 const mapDispatchToProps = dispatch => ({
-  simpleAction: () => dispatch(simpleAction()),
+  login: (name, surname) => dispatch(login(name, surname)),
 })
 
 const mapStateToProps = state => ({
   ...state,
 })
 
-const useStyles = makeStyles(theme => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.common.white,
-    },
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}))
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="#">
         Your Website
       </Link>{' '}
       {new Date().getFullYear()}
@@ -62,114 +44,31 @@ function Copyright() {
   )
 }
 
-// function SignUp(props) {
-//   const classes = useStyles()
-
-//   return (
-//     <Container component="main" maxWidth="xs">
-//       <CssBaseline />
-//       <div className={classes.paper}>
-//         <Avatar className={classes.avatar}>
-//           <LockOutlinedIcon />
-//         </Avatar>
-//         <Typography component="h1" variant="h5">
-//           Sign up
-//         </Typography>
-//         <form className={classes.form} noValidate>
-//           <Grid container spacing={2}>
-//             <Grid item xs={12} sm={6}>
-//               <TextField
-//                 autoComplete="fname"
-//                 name="firstName"
-//                 variant="outlined"
-//                 required
-//                 fullWidth
-//                 id="firstName"
-//                 label="First Name"
-//                 value={props.name}
-//                 autoFocus
-//               />
-//             </Grid>
-//             <Grid item xs={12} sm={6}>
-//               <TextField
-//                 variant="outlined"
-//                 required
-//                 fullWidth
-//                 id="lastName"
-//                 label="Last Name"
-//                 name="lastName"
-//                 value={props.surname}
-//                 autoComplete="lname"
-//               />
-//             </Grid>
-//             <Grid item xs={12}>
-//               <TextField
-//                 variant="outlined"
-//                 required
-//                 fullWidth
-//                 id="email"
-//                 label="Email Address"
-//                 name="email"
-//                 autoComplete="email"
-//               />
-//             </Grid>
-//             <Grid item xs={12}>
-//               <TextField
-//                 variant="outlined"
-//                 required
-//                 fullWidth
-//                 name="password"
-//                 label="Password"
-//                 type="password"
-//                 id="password"
-//                 autoComplete="current-password"
-//               />
-//             </Grid>
-//             <Grid item xs={12}>
-//               <FormControlLabel
-//                 control={<Checkbox value="allowExtraEmails" color="primary" />}
-//                 label="I want to receive inspiration, marketing promotions and updates via email."
-//               />
-//             </Grid>
-//           </Grid>
-//           <Button
-//             type="submit"
-//             fullWidth
-//             variant="contained"
-//             color="primary"
-//             className={classes.submit}
-//           >
-//             Sign Up
-//           </Button>
-//           <Grid container justify="flex-end">
-//             <Grid item>
-//               <Link href="#" variant="body2">
-//                 Already have an account? Sign in
-//               </Link>
-//             </Grid>
-//           </Grid>
-//         </form>
-//       </div>
-//       <Box mt={5}>
-//         <Copyright />
-//       </Box>
-//     </Container>
-//   )
-// }
-
 class Register extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      // user: this.props,
       user: {
-        name: 'Jorge',
-        surname: 'Martin',
+        isLoggedIn: false,
+        name: '',
+        surname: '',
+        tags: [],
       },
     }
   }
 
-  handleInput = event => {
+  componentDidMount() {
+    getTags().then(tags => {
+      this.setState(prevState => ({
+        user: {
+          ...prevState.user,
+          tags,
+        },
+      }))
+    })
+  }
+
+  handleChange = event => {
     const { name, value } = event.target
 
     this.setState(prevState => ({
@@ -182,57 +81,34 @@ class Register extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault()
-    this.props.history.push('/home')
+    this.props.login(this.state.user.name, this.state.user.surname)
+    // this.props.history.push('/home')
   }
 
-  useStyles = makeStyles(theme => ({
-    '@global': {
-      body: {
-        backgroundColor: theme.palette.common.white,
-      },
-    },
-    paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-      width: '100%', // Fix IE 11 issue.
-      marginTop: theme.spacing(3),
-    },
-    submit: {
-      margin: theme.spacing(3, 0, 2),
-    },
-  }))
-
   render() {
-    // const { name, surname, tag } = this.state.user
-    console.log(this.state.user)
+    const { name, surname, tags } = this.state.user
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <div className={this.useStyles.paper}>
-          <Avatar className={this.useStyles.avatar}>
+        <div className="paper">
+          <Avatar id="avatar-no-material" className="avatar">
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <form className={this.useStyles.form} noValidate>
+          <form className="form" noValidate onSubmit={this.handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="fname"
-                  name="firstName"
+                  name="name"
                   variant="outlined"
                   required
                   fullWidth
-                  id="firstName"
+                  id="name"
+                  value={name}
+                  onChange={this.handleChange}
                   label="First Name"
                   autoFocus
                 />
@@ -242,63 +118,58 @@ class Register extends React.Component {
                   variant="outlined"
                   required
                   fullWidth
-                  id="lastName"
+                  id="surname"
                   label="Last Name"
-                  name="lastName"
+                  name="surname"
+                  value={surname}
+                  onChange={this.handleChange}
                   autoComplete="lname"
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                />
+                <FormControl variant="outlined" className="formControl">
+                  <InputLabel htmlFor="outlined-tag-native-simple">Tag</InputLabel>
+                  <Select
+                    native
+                    required
+                    onChange={this.handleChange}
+                    inputProps={{
+                      name: 'tag',
+                      id: 'outlined-tag-native-simple',
+                    }}
+                  >
+                    <option value="" />
+                    {tags.map((tag, index) => (
+                      <option key={index} value={tag}>
+                        {tag}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  control={<Checkbox value="remaindMe" color="primary" />}
+                  label="I want to stay signed on"
                 />
               </Grid>
             </Grid>
             <Button
+              id="submit-no-material"
               type="submit"
+              className="submit"
               fullWidth
               variant="contained"
               color="primary"
-              className={this.useStyles.submit}
             >
               Sign Up
             </Button>
-            <Grid container justify="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </form>
         </div>
         <Box mt={5}>
           <Copyright />
         </Box>
+        <pre>{JSON.stringify(this.props.loginReducer)}</pre>
       </Container>
     )
   }
