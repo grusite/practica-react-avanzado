@@ -1,5 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
+import Modal from '@material-ui/core/Modal'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
@@ -19,19 +23,62 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }))
 
-export default function Navbar() {
+function rand() {
+  return Math.round(Math.random() * 20) - 10
+}
+
+function getModalStyle() {
+  const top = 50 + rand()
+  const left = 50 + rand()
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  }
+}
+
+const mapStateToProps = state => ({
+  ...state,
+})
+
+function Navbar() {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
+  const [modalStyle] = React.useState(getModalStyle)
+  const [openModal, setOpen] = React.useState(false)
   const open = Boolean(anchorEl)
 
   const handleMenu = event => {
     setAnchorEl(event.currentTarget)
   }
 
+  const handleLogOut = () => {
+    setAnchorEl(null)
+    localStorage.clear()
+  }
+
   const handleClose = () => {
     setAnchorEl(null)
+  }
+
+  const handleOpenModal = () => {
+    setAnchorEl(null)
+    setOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setOpen(false)
   }
 
   return (
@@ -69,8 +116,24 @@ export default function Navbar() {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
+              <MenuItem onClick={handleOpenModal}>Profile</MenuItem>
+              <Modal
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+                open={openModal}
+                onClose={handleCloseModal}
+              >
+                <div style={modalStyle} className={classes.paper}>
+                  <h2 id="simple-modal-title">Información de Usuario</h2>
+                  <p id="simple-modal-description">
+                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                    {/* {this.props.loginReducer} */}
+                  </p>
+                </div>
+              </Modal>
+              <MenuItem onClick={handleLogOut}>
+                <Link to="/register">Logout</Link>
+              </MenuItem>
             </Menu>
           </div>
         </Toolbar>
@@ -78,3 +141,5 @@ export default function Navbar() {
     </div>
   )
 }
+
+export default connect(mapStateToProps)(withRouter(Navbar))

@@ -5,12 +5,15 @@ import { login } from '../../actions/actions'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 
 import NavBar from '../Navbar/Navbar'
 import Advert from '../Advert/Advert'
 import { getAdvertById } from '../../services/AdsAPIService'
 
 import storage from '../../utils/storage'
+
+import '../Advert/advert.css'
 
 const { getItem } = storage()
 
@@ -55,6 +58,10 @@ class AdvertDetail extends React.Component {
     getAdvertById(advertId).then(advert => this.setState({ advert }))
   }
 
+  goBack = () => {
+    this.props.history.goBack()
+  }
+
   render() {
     const { advert } = this.state
     return (
@@ -65,6 +72,11 @@ class AdvertDetail extends React.Component {
             A continuación puede ver el detalle del anuncio seleccionado
           </Typography>
           <Advert advert={advert} />
+        </Grid>
+        <Grid container justify="space-around" alignItems="center" className="card-container">
+          <Button variant="contained" color="primary" className="button" onClick={this.goBack}>
+            Go Back
+          </Button>
         </Grid>
       </>
     )

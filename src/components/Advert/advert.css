@@ -22,6 +22,10 @@
   padding-top: 56.25%;
 }
 
+.button {
+  margin: 8px;
+}
+
 #avatar-no-material,
 .avatar {
   background-color: #f44336;
