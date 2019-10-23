@@ -3,10 +3,11 @@ export const simpleAction = () => ({
   payload: 'result_of_simple_action',
 })
 
-export const login = (name, surname) => ({
+export const login = (name, surname, tag) => ({
   type: 'LOGIN',
   name,
   surname,
+  tag,
 })
 
 export const logout = () => ({

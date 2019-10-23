@@ -1,10 +1,15 @@
 .card-container {
   margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .card {
-  width: 330px;
-  /* height: 450px; */
+  width: 320px;
+  /* height 410px; */
+}
+
+#card-description {
+  height: 72px;
 }
 
 #item-no-material,
@@ -20,6 +25,7 @@
 #avatar-no-material,
 .avatar {
   background-color: #f44336;
+  margin-top: 0px;
 }
 
 #avatar-green-no-material,

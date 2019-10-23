@@ -7,20 +7,18 @@ import { login } from '../../actions/actions'
 import NavBar from '../Navbar/Navbar'
 import AdvertList from '../AdvertList/AdvertList'
 
-import { getAdverts } from '../../services/AdsAPIService'
+import { filterAdverts } from '../../services/AdsAPIService'
 
 import storage from '../../utils/storage'
 
 const { getItem } = storage()
 
 const mapDispatchToProps = dispatch => ({
-  login: (name, surname) => dispatch(login(name, surname)),
+  login: (name, surname, tag) => dispatch(login(name, surname, tag)),
 })
 
 const mapStateToProps = state => ({
-  loginReducer: state.loginReducer,
-  isLoggedIn: state.loginReducer.isLoggedIn,
-  name: state.loginReducer.name,
+  ...state,
 })
 
 class Home extends React.Component {
@@ -37,17 +35,28 @@ class Home extends React.Component {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     // Si no está logado le llevo a registro
-    if (!JSON.parse(getItem('NodePop-User')).isLoggedIn) this.props.history.push('/register')
+    const user = JSON.parse(getItem('NodePop-User'))
+    if (!user || !user.isLoggedIn) {
+      this.props.history.push('/register')
+      return
+    }
 
     // Si lo está y recarga la pagina, le vuelvo a guardar en el estado el usuario
-    this.props.login(
+    await this.props.login(
       JSON.parse(getItem('NodePop-User')).name,
-      JSON.parse(getItem('NodePop-User')).surname
+      JSON.parse(getItem('NodePop-User')).surname,
+      JSON.parse(getItem('NodePop-User')).tag
     )
 
-    getAdverts().then(adverts => this.setState({ adverts }))
+    let paramTag = this.props.loginReducer.tag
+    console.log('paramTag')
+    console.log(paramTag)
+    let params = paramTag ? `tag=${paramTag}` : ''
+    console.log('params')
+    console.log(params)
+    filterAdverts(params).then(adverts => this.setState({ adverts }))
   }
 
   render() {

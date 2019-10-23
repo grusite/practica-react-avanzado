@@ -3,6 +3,10 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { login } from '../../actions/actions'
 
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+
+import NavBar from '../Navbar/Navbar'
 import Advert from '../Advert/Advert'
 import { getAdvertById } from '../../services/AdsAPIService'
 
@@ -11,13 +15,11 @@ import storage from '../../utils/storage'
 const { getItem } = storage()
 
 const mapDispatchToProps = dispatch => ({
-  login: (name, surname) => dispatch(login(name, surname)),
+  login: (name, surname, tag) => dispatch(login(name, surname, tag)),
 })
 
 const mapStateToProps = state => ({
-  loginReducer: state.loginReducer,
-  isLoggedIn: state.loginReducer.isLoggedIn,
-  name: state.loginReducer.name,
+  ...state,
 })
 
 class AdvertDetail extends React.Component {
@@ -30,28 +32,42 @@ class AdvertDetail extends React.Component {
         surname: '',
         tags: [],
       },
-      advert: '',
+      advert: this.props.location.state.advert,
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     // Si no está logado le llevo a registro
-    if (!JSON.parse(getItem('NodePop-User')).isLoggedIn) this.props.history.push('/register')
+    const user = JSON.parse(getItem('NodePop-User'))
+    if (!user || !user.isLoggedIn) {
+      this.props.history.push('/register')
+      return
+    }
 
     // Si lo está y recarga la pagina, le vuelvo a guardar en el estado el usuario
-    this.props.login(
+    await this.props.login(
       JSON.parse(getItem('NodePop-User')).name,
-      JSON.parse(getItem('NodePop-User')).surname
+      JSON.parse(getItem('NodePop-User')).surname,
+      JSON.parse(getItem('NodePop-User')).tag
     )
 
     const advertId = this.props.match.params.id
-    console.log(advertId)
     getAdvertById(advertId).then(advert => this.setState({ advert }))
   }
 
   render() {
     const { advert } = this.state
-    return <>{<Advert advert={advert} />}</>
+    return (
+      <>
+        <NavBar />
+        <Grid container justify="space-around" alignItems="center" className="card-container">
+          <Typography variant="h5" component="h5">
+            A continuación puede ver el detalle del anuncio seleccionado
+          </Typography>
+          <Advert advert={advert} />
+        </Grid>
+      </>
+    )
   }
 }
 

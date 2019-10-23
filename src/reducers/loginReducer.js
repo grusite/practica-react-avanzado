@@ -2,6 +2,7 @@ const defaultState = {
   isLoggedIn: false,
   name: '',
   surname: '',
+  tag: '',
 }
 
 export default (state = defaultState, action) => {
@@ -11,6 +12,7 @@ export default (state = defaultState, action) => {
         isLoggedIn: true,
         name: action.name,
         surname: action.surname,
+        tag: action.tag,
       })
     case 'LOGOUT':
       return Object.assign({}, state, {

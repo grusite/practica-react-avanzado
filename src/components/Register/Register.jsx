@@ -29,7 +29,7 @@ import './register.css'
 const { setItem, getItem } = storage()
 
 const mapDispatchToProps = dispatch => ({
-  login: (name, surname) => dispatch(login(name, surname)),
+  login: (name, surname, tag) => dispatch(login(name, surname, tag)),
 })
 
 const mapStateToProps = state => ({
@@ -58,6 +58,7 @@ class Register extends React.Component {
         name: '',
         surname: '',
         tags: [],
+        tag: '',
       },
       remindMe: false,
     }
@@ -65,7 +66,8 @@ class Register extends React.Component {
 
   componentDidMount() {
     // Si ya está logado le llevo a la Home
-    if (JSON.parse(getItem('NodePop-User')).isLoggedIn) this.props.history.push('/advert')
+    const user = JSON.parse(getItem('NodePop-User'))
+    if (user && user.isLoggedIn) this.props.history.push('/advert')
 
     getTags().then(tags => {
       this.setState(prevState => ({
@@ -93,9 +95,9 @@ class Register extends React.Component {
   }
 
   handleSubmit = event => {
-    const { name, surname } = this.state.user
+    const { name, surname, tag } = this.state.user
     event.preventDefault()
-    this.props.login(this.state.user.name, this.state.user.surname)
+    this.props.login(name, surname, tag)
     if (this.state.remindMe) {
       setItem(
         'NodePop-User',
@@ -103,6 +105,7 @@ class Register extends React.Component {
           isLoggedIn: true,
           name,
           surname,
+          tag,
         })
       )
     }
@@ -199,7 +202,6 @@ class Register extends React.Component {
         <Box mt={5}>
           <Copyright />
         </Box>
-        <pre>{JSON.stringify(this.props.loginReducer)}</pre>
       </Container>
     )
   }
