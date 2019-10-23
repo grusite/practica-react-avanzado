@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -21,7 +22,11 @@ import { login } from '../../actions/actions'
 
 import { getTags } from '../../services/AdsAPIService'
 
+import storage from '../../utils/storage'
+
 import './register.css'
+
+const { setItem, getItem } = storage()
 
 const mapDispatchToProps = dispatch => ({
   login: (name, surname) => dispatch(login(name, surname)),
@@ -54,10 +59,14 @@ class Register extends React.Component {
         surname: '',
         tags: [],
       },
+      remindMe: false,
     }
   }
 
   componentDidMount() {
+    // Si ya está logado le llevo a la Home
+    if (JSON.parse(getItem('NodePop-User')).isLoggedIn) this.props.history.push('/advert')
+
     getTags().then(tags => {
       this.setState(prevState => ({
         user: {
@@ -79,10 +88,25 @@ class Register extends React.Component {
     }))
   }
 
+  handleCheckbox = name => event => {
+    this.setState({ ...this.state, [name]: event.target.checked })
+  }
+
   handleSubmit = event => {
+    const { name, surname } = this.state.user
     event.preventDefault()
     this.props.login(this.state.user.name, this.state.user.surname)
-    // this.props.history.push('/home')
+    if (this.state.remindMe) {
+      setItem(
+        'NodePop-User',
+        JSON.stringify({
+          isLoggedIn: true,
+          name,
+          surname,
+        })
+      )
+    }
+    this.props.history.push('/advert')
   }
 
   render() {
@@ -149,7 +173,13 @@ class Register extends React.Component {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="remaindMe" color="primary" />}
+                  control={
+                    <Checkbox
+                      value="remindMe"
+                      onChange={this.handleCheckbox('remindMe')}
+                      color="primary"
+                    />
+                  }
                   label="I want to stay signed on"
                 />
               </Grid>
@@ -178,4 +208,4 @@ class Register extends React.Component {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Register)
+)(withRouter(Register))

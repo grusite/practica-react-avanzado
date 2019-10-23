@@ -1,6 +1,6 @@
 const API = 'http://localhost:3001/apiv1'
 
-export const getAds = () => {
+export const getAdverts = () => {
   return fetch(`${API}/anuncios/`, {
     method: 'GET',
   })
@@ -8,7 +8,7 @@ export const getAds = () => {
     .then(res => res.results)
 }
 
-export const getAdById = id => {
+export const getAdvertById = id => {
   return fetch(`${API}/anuncios/${id}`, {
     method: 'GET',
   })
@@ -16,7 +16,7 @@ export const getAdById = id => {
     .then(res => res.result)
 }
 
-export const filterAds = params => {
+export const filterAdverts = params => {
   return fetch(`${API}/anuncios?${params}`, {
     method: 'GET',
   })
