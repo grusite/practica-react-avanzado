@@ -8,10 +8,14 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
+import AddIcon from '@material-ui/icons/Add'
+import Fab from '@material-ui/core/Fab'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
+import Tooltip from '@material-ui/core/Tooltip'
+
+import './navbar.css'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,6 +34,9 @@ const useStyles = makeStyles(theme => ({
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+  },
+  margin: {
+    marginRight: theme.spacing(2),
   },
 }))
 
@@ -85,9 +92,11 @@ function Navbar() {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
+          <Tooltip title="Add Advert" aria-label="add">
+            <Fab size="medium" color="secondary" aria-label="add" className={classes.margin}>
+              <AddIcon />
+            </Fab>
+          </Tooltip>
           <Typography variant="h6" className={classes.title}>
             NodePop
           </Typography>
@@ -126,7 +135,7 @@ function Navbar() {
                 <div style={modalStyle} className={classes.paper}>
                   <h2 id="simple-modal-title">Información de Usuario</h2>
                   <p id="simple-modal-description">
-                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                    Bienvenido a Node Pop, this.props.loginReducer.name
                     {/* {this.props.loginReducer} */}
                   </p>
                 </div>

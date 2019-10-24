@@ -33,14 +33,18 @@ class AdvertList extends React.Component {
 
   renderAdverts = adverts => {
     return (
-      <Grid container justify="space-around" alignItems="center" className="card-container">
-        <Typography variant="h5" component="h5">
-          A continuación puede ver todos los anuncios disponibles
-        </Typography>
-        {adverts.map(advert => (
-          <Advert key={advert._id} advert={advert} />
-        ))}
-      </Grid>
+      <>
+        <Grid container justify="center" alignItems="center" className="card-container">
+          <Typography variant="h5" component="h5">
+            A continuación puede ver todos los anuncios disponibles
+          </Typography>
+        </Grid>
+        <Grid container justify="space-around" alignItems="center" className="card-container">
+          {adverts.map(advert => (
+            <Advert key={advert._id} advert={advert} />
+          ))}
+        </Grid>
+      </>
     )
   }
 
@@ -51,9 +55,9 @@ class AdvertList extends React.Component {
         {adverts && this.renderAdverts(adverts)}
 
         {(!adverts || adverts.length === 0) && (
-          <div className="text-center mt-5">
-            <h2>No hay anuncios</h2>
-          </div>
+          <Typography variant="h2" component="h2">
+            No hay anuncios
+          </Typography>
         )}
       </>
     )

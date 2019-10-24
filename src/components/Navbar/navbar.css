@@ -1,9 +1,4 @@
-.root {
-  flex-grow: 1;
-}
-.menuButton {
-  margin-right: 16px;
-}
-.title {
-  flex-grow: 1;
+a {
+  color: inherit;
+  text-decoration: none;
 }

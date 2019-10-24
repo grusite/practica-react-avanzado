@@ -74,7 +74,7 @@ class Advert extends React.Component {
 
     return (
       <>
-        <Grid item md={3} id="item-no-material" className="card-item">
+        <Grid item id="item-no-material" className="card-item">
           <Card className="card" onClick={this.goToDetail}>
             <CardHeader
               avatar={avatar}
