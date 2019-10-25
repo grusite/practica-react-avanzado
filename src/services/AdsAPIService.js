@@ -35,8 +35,11 @@ export const getTags = () => {
 export const createAd = data => {
   return fetch(`${API}/anuncios`, {
     method: 'POST',
-    // data can be `string` or {object}
     body: JSON.stringify(data),
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
   })
     .then(res => res.json())
     .catch(error => console.error('Error:', error))
@@ -48,6 +51,10 @@ export const updateAd = (data, id) => {
     method: 'PUT',
     // data can be `string` or {object}
     body: JSON.stringify(data),
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
   })
     .then(res => res.json())
     .catch(error => console.error('Error:', error))

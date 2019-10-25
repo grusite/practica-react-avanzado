@@ -16,7 +16,6 @@ import ShareIcon from '@material-ui/icons/Share'
 import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutlined'
 import AttachMoneyOutlinedIcon from '@material-ui/icons/AttachMoneyOutlined'
 import Grid from '@material-ui/core/Grid'
-import Fab from '@material-ui/core/Fab'
 import EditIcon from '@material-ui/icons/Edit'
 
 import './advert.css'
@@ -52,10 +51,15 @@ class Advert extends React.Component {
     })
   }
 
+  goToUpdate = () => {
+    this.props.history.push({
+      pathname: `/update/${this.state.advert._id}`,
+      state: { advert: this.props.advert },
+    })
+  }
+
   render() {
     const { advert } = this.state
-    // console.log('advert')
-    // console.log(advert)
     let avatar
 
     if (advert.type === 'buy') {
@@ -75,12 +79,12 @@ class Advert extends React.Component {
     return (
       <>
         <Grid item id="item-no-material" className="card-item">
-          <Card className="card" onClick={this.goToDetail}>
+          <Card className="card">
             <CardHeader
               avatar={avatar}
               title={advert.name}
               action={
-                <IconButton aria-label="settings">
+                <IconButton onClick={this.goToUpdate} aria-label="settings">
                   <EditIcon />
                 </IconButton>
               }
@@ -90,13 +94,14 @@ class Advert extends React.Component {
               className="media"
               image={`http://localhost:3001${advert.photo}`}
               title={advert.name}
+              onClick={this.goToDetail}
             />
-            <CardContent>
+            <CardContent onClick={this.goToDetail}>
               <Typography id="card-description" variant="body2" color="textSecondary" component="p">
                 {advert.description}
               </Typography>
             </CardContent>
-            <CardActions disableSpacing>
+            <CardActions disableSpacing onClick={this.goToDetail}>
               <IconButton aria-label="add to favorites">
                 <FavoriteIcon />
               </IconButton>

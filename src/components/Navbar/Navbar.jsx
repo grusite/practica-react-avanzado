@@ -59,7 +59,7 @@ const mapStateToProps = state => ({
   ...state,
 })
 
-function Navbar() {
+function Navbar(props) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [modalStyle] = React.useState(getModalStyle)
@@ -93,7 +93,13 @@ function Navbar() {
       <AppBar position="static">
         <Toolbar>
           <Tooltip title="Add Advert" aria-label="add">
-            <Fab size="medium" color="secondary" aria-label="add" className={classes.margin}>
+            <Fab
+              size="small"
+              color="secondary"
+              aria-label="add"
+              className={classes.margin}
+              onClick={props.goTo}
+            >
               <AddIcon />
             </Fab>
           </Tooltip>
@@ -151,4 +157,21 @@ function Navbar() {
   )
 }
 
-export default connect(mapStateToProps)(withRouter(Navbar))
+class NavBarTest extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: 'Jorge',
+    }
+  }
+
+  goToCreateAdvert = () => {
+    this.props.history.push('/create')
+  }
+
+  render() {
+    return <Navbar goTo={this.goToCreateAdvert} />
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(NavBarTest))

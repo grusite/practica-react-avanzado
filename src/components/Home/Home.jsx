@@ -35,6 +35,15 @@ class Home extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location !== this.props.location) {
+      console.log('nextProps.location')
+      console.log(nextProps.location)
+      console.log('this.props.location')
+      console.log(this.props.location)
+    }
+  }
+
   async componentDidMount() {
     // Si no está logado le llevo a registro
     const user = JSON.parse(getItem('NodePop-User'))
@@ -51,11 +60,7 @@ class Home extends React.Component {
     )
 
     let paramTag = this.props.loginReducer.tag
-    console.log('paramTag')
-    console.log(paramTag)
     let params = paramTag ? `tag=${paramTag}` : ''
-    console.log('params')
-    console.log(params)
     filterAdverts(params).then(adverts => this.setState({ adverts }))
   }
 

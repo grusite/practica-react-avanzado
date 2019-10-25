@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Home from '../Home/Home'
 import Register from '../Register/Register'
 import AdvertDetail from '../AdvertDetail/AdvertDetail'
+import CreateUpdateAdvert from '../CreateUpdateAdvert/CreateUpdateAdvert'
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -52,6 +53,8 @@ class App extends React.Component {
             <Route path="/register" component={Register} />
             <Route exact path="/advert" component={Home} />
             <Route path="/advert/:id" component={AdvertDetail} />
+            <Route path="/create" component={CreateUpdateAdvert} />
+            <Route path="/update" component={CreateUpdateAdvert} />
             <Route path="/" component={Register} />
           </Switch>
         </Router>
