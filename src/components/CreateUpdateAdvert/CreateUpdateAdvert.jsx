@@ -130,7 +130,7 @@ class createUpdateAdvert extends React.Component {
 
   handleSubmit = () => {
     const body = this.state
-    const id = this.props.match.params.id
+    const id = this.props.location.state.advert._id
     if (this.comeFromUpdate()) {
       updateAd(body, id).then(this.props.history.push('/advert'))
     } else {
@@ -140,7 +140,6 @@ class createUpdateAdvert extends React.Component {
 
   render() {
     const { type, name, description, price, photo, tags, tagsSelected } = this.state
-    console.log(this.state)
 
     let title = (
       <Typography variant="h6" gutterBottom>

@@ -60,7 +60,9 @@ class Advert extends React.Component {
 
   render() {
     const { advert } = this.state
+
     let avatar
+    let imgUrl = advert.photo
 
     if (advert.type === 'buy') {
       avatar = (
@@ -76,6 +78,7 @@ class Advert extends React.Component {
       )
     }
 
+    if (advert.photo.startsWith('/images/anuncios')) imgUrl = `http://localhost:3001${advert.photo}`
     return (
       <>
         <Grid item id="item-no-material" className="card-item">
@@ -92,7 +95,7 @@ class Advert extends React.Component {
             />
             <CardMedia
               className="media"
-              image={`http://localhost:3001${advert.photo}`}
+              image={imgUrl}
               title={advert.name}
               onClick={this.goToDetail}
             />
