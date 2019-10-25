@@ -1,0 +1,15 @@
+.text {
+  text-align: center;
+}
+
+.bodyContainer {
+  background-color: #e8ebf1;
+  margin: 30px;
+}
+
+.paperFilter {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+}

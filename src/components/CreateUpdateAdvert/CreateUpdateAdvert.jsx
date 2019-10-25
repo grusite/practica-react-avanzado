@@ -53,18 +53,6 @@ const initialState = {
   tagsSelected: [],
 }
 
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
-
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-}
-
 class createUpdateAdvert extends React.Component {
   constructor(props) {
     super(props)
@@ -254,7 +242,6 @@ class createUpdateAdvert extends React.Component {
                     onChange={this.handleChange}
                     input={<Input id="select-multiple-checkbox" />}
                     renderValue={selected => selected.join(', ')}
-                    MenuProps={MenuProps}
                   >
                     {tags.map(tag => (
                       <MenuItem key={tag} value={tag}>

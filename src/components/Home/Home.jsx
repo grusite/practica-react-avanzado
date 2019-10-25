@@ -6,6 +6,7 @@ import { login } from '../../actions/actions'
 
 import NavBar from '../Navbar/Navbar'
 import AdvertList from '../AdvertList/AdvertList'
+import Filter from '../Filter/Filter'
 
 import { filterAdverts } from '../../services/AdsAPIService'
 
@@ -21,6 +22,8 @@ const mapStateToProps = state => ({
   ...state,
 })
 
+let paramTag = ''
+
 class Home extends React.Component {
   constructor(props) {
     super(props)
@@ -32,6 +35,7 @@ class Home extends React.Component {
         tags: [],
       },
       adverts: [],
+      params: '',
     }
   }
 
@@ -59,9 +63,25 @@ class Home extends React.Component {
       JSON.parse(getItem('NodePop-User')).tag
     )
 
-    let paramTag = this.props.loginReducer.tag
+    paramTag = await this.props.loginReducer.tag
+    console.log('paramTag')
+    console.log(paramTag)
     let params = paramTag ? `tag=${paramTag}` : ''
     filterAdverts(params).then(adverts => this.setState({ adverts }))
+  }
+
+  onFilterChange = state => {
+    // let newParam = this.state.params + `&${name}=${value}`
+    // this.setState(prevState => ({
+    //   ...prevState,
+    //   params: newParam,
+    // }))
+    let newParam = ''
+    for (const param in state) {
+      if (state[param] && param !== 'tags') newParam += `&${param}=${state[param]}`
+    }
+    console.log('newParam')
+    console.log(newParam)
   }
 
   render() {
@@ -69,6 +89,7 @@ class Home extends React.Component {
     return (
       <>
         <NavBar />
+        {paramTag && <Filter onFilterChange={this.onFilterChange} tagSelected={paramTag} />}
         <AdvertList adverts={adverts} />
       </>
     )
