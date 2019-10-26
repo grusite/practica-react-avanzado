@@ -183,7 +183,7 @@ class Register extends React.Component {
                       color="primary"
                     />
                   }
-                  label="I want to stay signed on"
+                  label="I want to stay signed in"
                 />
               </Grid>
             </Grid>

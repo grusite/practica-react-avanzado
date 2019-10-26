@@ -63,9 +63,7 @@ class Home extends React.Component {
       JSON.parse(getItem('NodePop-User')).tag
     )
 
-    paramTag = await this.props.loginReducer.tag
-    console.log('paramTag')
-    console.log(paramTag)
+    paramTag = this.props.loginReducer.tag
     let params = paramTag ? `tag=${paramTag}` : ''
     filterAdverts(params).then(adverts => this.setState({ adverts }))
   }
@@ -77,11 +75,33 @@ class Home extends React.Component {
     //   params: newParam,
     // }))
     let newParam = ''
-    for (const param in state) {
-      if (state[param] && param !== 'tags') newParam += `&${param}=${state[param]}`
+    for (let param in state) {
+      console.log('param')
+      console.log(param)
+      console.log('state[param]')
+      console.log(state[param])
+      if (state[param] && state[param].length !== 0 && param !== 'tags') {
+        if (param === 'tagSelected') {
+          newParam += `&tag=${state[param]}`
+          continue
+        }
+
+        // triquiñuela para que pueda filtrar en la api por sell or buy
+        if (param === 'type') {
+          if (state[param] === 'sell') {
+            newParam += `&venta=true`
+            continue
+          }
+          newParam += `&venta=false`
+          continue
+        }
+        newParam += `&${param}=${state[param]}`
+        console.log(newParam)
+      }
     }
     console.log('newParam')
     console.log(newParam)
+    filterAdverts(newParam).then(adverts => this.setState({ adverts }))
   }
 
   render() {

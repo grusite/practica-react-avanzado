@@ -29,11 +29,13 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     position: 'absolute',
+    textAlign: 'center',
     width: 400,
+    height: 230,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(6, 4, 3),
   },
   margin: {
     marginRight: theme.spacing(2),
@@ -141,7 +143,7 @@ function Navbar(props) {
                 <div style={modalStyle} className={classes.paper}>
                   <h2 id="simple-modal-title">Información de Usuario</h2>
                   <p id="simple-modal-description">
-                    Bienvenido a Node Pop, this.props.loginReducer.name
+                    Bienvenido a NodePop, {props.nombreUsuario}
                     {/* {this.props.loginReducer} */}
                   </p>
                 </div>
@@ -170,7 +172,10 @@ class NavBarTest extends React.Component {
   }
 
   render() {
-    return <Navbar goTo={this.goToCreateAdvert} />
+    console.log('this.props.loginReducer')
+    console.log(this.props.loginReducer)
+    const nombreUsuario = this.props.loginReducer.name + ' ' + this.props.loginReducer.surname
+    return <Navbar goTo={this.goToCreateAdvert} nombreUsuario={nombreUsuario} />
   }
 }
 

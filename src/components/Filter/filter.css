@@ -7,9 +7,27 @@
   margin: 30px;
 }
 
+#paper-no-material,
 .paperFilter {
-  margin-top: 30px;
-  margin-bottom: 30px;
-  display: flex;
+  margin: 30px 0px 30px 50px;
+  justify-content: space-around;
+  flex-wrap: nowrap;
+  width: inherit;
+}
+
+#input-no-material,
+.inputs {
+  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.adType {
+  margin-top: 30px;
+}
+
+.priceItem,
+.tagItem {
+  width: 100%;
 }
