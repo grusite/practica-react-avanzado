@@ -52,6 +52,7 @@ const initialState = {
   tagsSelected: [],
   success: false,
   error: false,
+  infoMessage: false,
 }
 
 class createUpdateAdvert extends React.Component {
@@ -109,7 +110,7 @@ class createUpdateAdvert extends React.Component {
   }
 
   handleClose = () => {
-    this.setState({ ...this.state, error: false, success: false })
+    this.setState({ ...this.state, error: false, success: false, infoMessage: false })
   }
 
   handleChange(event) {
@@ -122,14 +123,25 @@ class createUpdateAdvert extends React.Component {
   }
 
   handleSubmit = () => {
-    const body = {
-      type: this.state.type,
-      name: this.state.name,
-      description: this.state.description,
-      price: this.state.price,
-      photo: this.state.photo,
-      tags: this.state.tagsSelected,
+    const { type, name, description, price, photo, tagsSelected } = this.state
+
+    if (!name || !price || !photo || !tagsSelected) {
+      this.setState(prevState => ({
+        ...prevState,
+        infoMessage: true,
+      }))
+      return
     }
+
+    const body = {
+      type,
+      name,
+      description,
+      price,
+      photo,
+      tags: tagsSelected,
+    }
+
     if (this.comeFromUpdate()) {
       const id = this.props.location.state.advert._id
       updateAd(body, id)
@@ -177,19 +189,19 @@ class createUpdateAdvert extends React.Component {
 
     let title = (
       <Typography variant="h6" gutterBottom>
-        New advertisement
+        Crea tu nuevo anuncio
       </Typography>
     )
 
-    let buttonText = 'Create'
+    let buttonText = 'Crear'
 
     if (this.comeFromUpdate()) {
       title = (
         <Typography variant="h6" gutterBottom>
-          Edit advertisement
+          Edita el anuncio seleccionado
         </Typography>
       )
-      buttonText = 'Update'
+      buttonText = 'Actualizar'
     }
 
     let statusMessage = ''
@@ -200,7 +212,7 @@ class createUpdateAdvert extends React.Component {
           onClose={this.handleClose}
           variant="success"
           className="margin"
-          message="Everything was good!"
+          message="¡Todo correcto!"
         />
       )
     } else if (this.state.error) {
@@ -209,7 +221,16 @@ class createUpdateAdvert extends React.Component {
           onClose={this.handleClose}
           variant="error"
           className="margin"
-          message="An error has ocurred, please try again :("
+          message="Ha ocurrido un error, intentelo más tarde"
+        />
+      )
+    } else if (this.state.infoMessage) {
+      statusMessage = (
+        <MySnackbarContentWrapper
+          onClose={this.handleClose}
+          variant="warning"
+          className="margin"
+          message="Debe rellenar los marcados con asterisco"
         />
       )
     }
@@ -235,7 +256,7 @@ class createUpdateAdvert extends React.Component {
                         checked={type === 'buy'}
                       />
                     }
-                    label="Buy"
+                    label="Comprar"
                   />
                   <FormControlLabel
                     control={
@@ -248,7 +269,7 @@ class createUpdateAdvert extends React.Component {
                         checked={type === 'sell'}
                       />
                     }
-                    label="Sell"
+                    label="Vender"
                   />
                 </FormGroup>
               </Grid>
@@ -257,7 +278,7 @@ class createUpdateAdvert extends React.Component {
                   required
                   id="name"
                   name="name"
-                  label="Name"
+                  label="Nombre"
                   fullWidth
                   autoComplete="name"
                   value={name}
@@ -266,10 +287,9 @@ class createUpdateAdvert extends React.Component {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   id="description"
                   name="description"
-                  label="Description"
+                  label="Descripción"
                   fullWidth
                   autoComplete="desc"
                   value={description}
@@ -278,7 +298,9 @@ class createUpdateAdvert extends React.Component {
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel htmlFor="adornment-amount">Price</InputLabel>
+                  <InputLabel required htmlFor="adornment-amount">
+                    Precio
+                  </InputLabel>
                   <Input
                     id="adornment-amount"
                     value={price}
@@ -293,7 +315,7 @@ class createUpdateAdvert extends React.Component {
                   required
                   id="photo"
                   name="photo"
-                  label="Paste the url of the picture"
+                  label="Inserte la url de la imagen"
                   fullWidth
                   autoComplete="url picture"
                   value={photo}
@@ -302,7 +324,9 @@ class createUpdateAdvert extends React.Component {
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel htmlFor="select-multiple-checkbox">Tag</InputLabel>
+                  <InputLabel required htmlFor="select-multiple-checkbox">
+                    Tag
+                  </InputLabel>
                   <Select
                     multiple
                     value={tagsSelected}
@@ -341,7 +365,7 @@ class createUpdateAdvert extends React.Component {
                 color="primary"
                 onClick={this.resetForm}
               >
-                Reset
+                Restaurar
               </Button>
             </Grid>
           </div>

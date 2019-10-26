@@ -7,7 +7,6 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import Link from '@material-ui/core/Link'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
@@ -40,11 +39,7 @@ const mapStateToProps = state => ({
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="#">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
+      {'Copyright © '} {new Date().getFullYear()}
       {'.'}
     </Typography>
   )
@@ -138,7 +133,7 @@ class Register extends React.Component {
           onClose={this.handleClose}
           variant="success"
           className="margin"
-          message="Registered properly!"
+          message="¡Registro correcto!"
         />
       )
     } else if (this.state.infoMessage) {
@@ -147,7 +142,7 @@ class Register extends React.Component {
           onClose={this.handleClose}
           variant="warning"
           className="margin"
-          message="Please, fill all the inputs"
+          message="Por favor, rellene todos los campos"
         />
       )
     }
@@ -160,7 +155,7 @@ class Register extends React.Component {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Registro
           </Typography>
           <form className="form" noValidate onSubmit={this.handleSubmit}>
             <Grid container spacing={2}>
@@ -174,7 +169,7 @@ class Register extends React.Component {
                   id="name"
                   value={name}
                   onChange={this.handleChange}
-                  label="First Name"
+                  label="Nombre"
                   autoFocus
                 />
               </Grid>
@@ -184,7 +179,7 @@ class Register extends React.Component {
                   required
                   fullWidth
                   id="surname"
-                  label="Last Name"
+                  label="Apellido"
                   name="surname"
                   value={surname}
                   onChange={this.handleChange}
@@ -223,7 +218,7 @@ class Register extends React.Component {
                       color="primary"
                     />
                   }
-                  label="I want to stay signed in"
+                  label="Quiero mantener mi sesión activa"
                 />
               </Grid>
             </Grid>
@@ -235,7 +230,7 @@ class Register extends React.Component {
               variant="contained"
               color="primary"
             >
-              Sign Up
+              Registrate
             </Button>
           </form>
         </div>

@@ -88,7 +88,7 @@ class createUpdateAdvert extends React.Component {
       <>
         <div className="bodyContainer">
           <Typography className="text" variant="h6" component="h6">
-            FIlter Ads
+            Filtro de anuncios
           </Typography>
           <Grid container id="paper-no-material" className="paperFilter">
             <div className="adType">
@@ -104,7 +104,7 @@ class createUpdateAdvert extends React.Component {
                       checked={type === 'buy'}
                     />
                   }
-                  label="Buy"
+                  label="Compra"
                 />
                 <FormControlLabel
                   control={
@@ -117,7 +117,7 @@ class createUpdateAdvert extends React.Component {
                       checked={type === 'sell'}
                     />
                   }
-                  label="Sell"
+                  label="Venta"
                 />
               </FormGroup>
             </div>
@@ -126,7 +126,7 @@ class createUpdateAdvert extends React.Component {
                 <TextField
                   id="name"
                   name="name"
-                  label="Name"
+                  label="Nombre"
                   autoComplete="name"
                   value={name}
                   onChange={this.handleChange}
@@ -136,7 +136,7 @@ class createUpdateAdvert extends React.Component {
                 <TextField
                   id="description"
                   name="description"
-                  label="Description"
+                  label="Descripción"
                   autoComplete="desc"
                   value={description}
                   onChange={this.handleChange}
@@ -146,7 +146,7 @@ class createUpdateAdvert extends React.Component {
             <Grid container id="input-no-material" className="inputs">
               <Grid item xs={6} sm={6} className="priceItem">
                 <FormControl fullWidth>
-                  <InputLabel htmlFor="adornment-amount">Price</InputLabel>
+                  <InputLabel htmlFor="adornment-amount">Precio</InputLabel>
                   <Input
                     id="adornment-amount"
                     value={price}
@@ -194,7 +194,7 @@ class createUpdateAdvert extends React.Component {
               color="primary"
               onClick={this.resetForm}
             >
-              Reset
+              Restaurar
             </Button>
           </Grid>
         </div>

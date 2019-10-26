@@ -77,7 +77,7 @@ class AdvertDetail extends React.Component {
         </Grid>
         <Grid container justify="space-around" alignItems="center" className="card-container">
           <Button variant="contained" color="primary" className="button" onClick={this.goBack}>
-            Go Back
+            Atras
           </Button>
         </Grid>
       </>
