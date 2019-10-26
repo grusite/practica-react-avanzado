@@ -67,10 +67,12 @@ class AdvertDetail extends React.Component {
     return (
       <>
         <NavBar />
-        <Grid container justify="space-around" alignItems="center" className="card-container">
+        <Grid container justify="center" alignItems="center" className="card-container">
           <Typography variant="h5" component="h5">
             A continuación puede ver el detalle del anuncio seleccionado
           </Typography>
+        </Grid>
+        <Grid container justify="space-around" alignItems="center" className="card-container">
           <Advert advert={advert} />
         </Grid>
         <Grid container justify="space-around" alignItems="center" className="card-container">

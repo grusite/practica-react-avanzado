@@ -5,6 +5,7 @@ import Home from '../Home/Home'
 import Register from '../Register/Register'
 import AdvertDetail from '../AdvertDetail/AdvertDetail'
 import CreateUpdateAdvert from '../CreateUpdateAdvert/CreateUpdateAdvert'
+import Error404 from '../Error404/Error404'
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -55,7 +56,8 @@ class App extends React.Component {
             <Route path="/advert/:id" component={AdvertDetail} />
             <Route path="/create" component={CreateUpdateAdvert} />
             <Route path="/update" component={CreateUpdateAdvert} />
-            <Route path="/" component={Register} />
+            <Route exact path="/" component={Register} />
+            <Route component={Error404} />
           </Switch>
         </Router>
       </ErrorBoundary>
