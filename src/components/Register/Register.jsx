@@ -16,6 +16,7 @@ import Container from '@material-ui/core/Container'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+import MySnackbarContentWrapper from '../StatusMessages/StatusMessages'
 
 import { connect } from 'react-redux'
 import { login } from '../../actions/actions'
@@ -61,6 +62,8 @@ class Register extends React.Component {
         tag: '',
       },
       remindMe: false,
+      success: false,
+      infoMessage: false,
     }
   }
 
@@ -96,24 +99,59 @@ class Register extends React.Component {
 
   handleSubmit = event => {
     const { name, surname, tag } = this.state.user
-    event.preventDefault()
-    this.props.login(name, surname, tag)
-    if (this.state.remindMe) {
-      setItem(
-        'NodePop-User',
-        JSON.stringify({
-          isLoggedIn: true,
-          name,
-          surname,
-          tag,
-        })
-      )
+    if (name && surname && tag) {
+      this.setState({ ...this.state, success: true })
+      event.preventDefault()
+      this.props.login(name, surname, tag)
+      if (this.state.remindMe) {
+        setItem(
+          'NodePop-User',
+          JSON.stringify({
+            isLoggedIn: true,
+            name,
+            surname,
+            tag,
+          })
+        )
+      }
+      setTimeout(() => {
+        this.props.history.push('/advert')
+      }, 2000)
+    } else {
+      event.preventDefault()
+      this.setState({ ...this.state, infoMessage: true })
     }
-    this.props.history.push('/advert')
+  }
+
+  handleClose = () => {
+    this.setState({ ...this.state, infoMessage: false, success: false })
   }
 
   render() {
     const { name, surname, tags } = this.state.user
+    console.log(this.state)
+    let statusMessage = ''
+
+    if (this.state.success) {
+      statusMessage = (
+        <MySnackbarContentWrapper
+          onClose={this.handleClose}
+          variant="success"
+          className="margin"
+          message="Registered properly!"
+        />
+      )
+    } else if (this.state.infoMessage) {
+      statusMessage = (
+        <MySnackbarContentWrapper
+          onClose={this.handleClose}
+          variant="warning"
+          className="margin"
+          message="Please, fill all the inputs"
+        />
+      )
+    }
+
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -172,6 +210,9 @@ class Register extends React.Component {
                     ))}
                   </Select>
                 </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                {statusMessage}
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel

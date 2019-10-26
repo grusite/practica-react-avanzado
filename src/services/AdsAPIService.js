@@ -43,7 +43,6 @@ export const createAd = data => {
   })
     .then(res => res.json())
     .catch(error => console.error('Error:', error))
-    .then(response => console.log('Success:', response))
 }
 
 export const updateAd = (data, id) => {
@@ -58,5 +57,4 @@ export const updateAd = (data, id) => {
   })
     .then(res => res.json())
     .catch(error => console.error('Error:', error))
-    .then(response => console.log('Success:', response))
 }

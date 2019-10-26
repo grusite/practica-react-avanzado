@@ -24,7 +24,7 @@ import Select from '@material-ui/core/Select'
 import InputAdornment from '@material-ui/core/InputAdornment'
 
 import NavBar from '../Navbar/Navbar'
-import MySnackbarContentWrapper from './StatusMessages'
+import MySnackbarContentWrapper from '../StatusMessages/StatusMessages'
 
 import { getTags, createAd, updateAd } from '../../services/AdsAPIService'
 
@@ -108,6 +108,10 @@ class createUpdateAdvert extends React.Component {
     this.setState(initialState)
   }
 
+  handleClose = () => {
+    this.setState({ ...this.state, error: false, success: false })
+  }
+
   handleChange(event) {
     const { name, value } = event.target
 
@@ -118,7 +122,14 @@ class createUpdateAdvert extends React.Component {
   }
 
   handleSubmit = () => {
-    const body = this.state
+    const body = {
+      type: this.state.type,
+      name: this.state.name,
+      description: this.state.description,
+      price: this.state.price,
+      photo: this.state.photo,
+      tags: this.state.tagsSelected,
+    }
     if (this.comeFromUpdate()) {
       const id = this.props.location.state.advert._id
       updateAd(body, id)
@@ -131,7 +142,7 @@ class createUpdateAdvert extends React.Component {
         .then(() => {
           setTimeout(() => {
             this.props.history.push('/advert')
-          }, 3000)
+          }, 2000)
         })
         .catch(() => {
           this.setState(prevState => ({
@@ -150,7 +161,7 @@ class createUpdateAdvert extends React.Component {
         .then(() => {
           setTimeout(() => {
             this.props.history.push('/advert')
-          }, 3000)
+          }, 2000)
         })
         .catch(() => {
           this.setState(prevState => ({
@@ -186,6 +197,7 @@ class createUpdateAdvert extends React.Component {
     if (this.state.success) {
       statusMessage = (
         <MySnackbarContentWrapper
+          onClose={this.handleClose}
           variant="success"
           className="margin"
           message="Everything was good!"
@@ -194,6 +206,7 @@ class createUpdateAdvert extends React.Component {
     } else if (this.state.error) {
       statusMessage = (
         <MySnackbarContentWrapper
+          onClose={this.handleClose}
           variant="error"
           className="margin"
           message="An error has ocurred, please try again :("

@@ -108,7 +108,13 @@ class Advert extends React.Component {
             </CardContent>
             <CardActions disableSpacing onClick={this.goToDetail}>
               {advert.tags.map(tag => (
-                <Button variant="outlined" id="button-no-material" disabled className="button">
+                <Button
+                  key={tag}
+                  variant="outlined"
+                  id="button-no-material"
+                  disabled
+                  className="button"
+                >
                   {tag}
                 </Button>
               ))}

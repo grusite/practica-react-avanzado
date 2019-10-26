@@ -172,8 +172,6 @@ class NavBarTest extends React.Component {
   }
 
   render() {
-    console.log('this.props.loginReducer')
-    console.log(this.props.loginReducer)
     const nombreUsuario = this.props.loginReducer.name + ' ' + this.props.loginReducer.surname
     return <Navbar goTo={this.goToCreateAdvert} nombreUsuario={nombreUsuario} />
   }

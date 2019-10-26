@@ -39,15 +39,6 @@ class Home extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.location !== this.props.location) {
-      console.log('nextProps.location')
-      console.log(nextProps.location)
-      console.log('this.props.location')
-      console.log(this.props.location)
-    }
-  }
-
   async componentDidMount() {
     // Si no está logado le llevo a registro
     const user = JSON.parse(getItem('NodePop-User'))
@@ -63,7 +54,8 @@ class Home extends React.Component {
       JSON.parse(getItem('NodePop-User')).tag
     )
 
-    paramTag = this.props.loginReducer.tag
+    let paramTagfromState = this.props.loginReducer.tag
+    paramTag = paramTagfromState ? paramTagfromState : ''
     let params = paramTag ? `tag=${paramTag}` : ''
     filterAdverts(params).then(adverts => this.setState({ adverts }))
   }
@@ -76,10 +68,6 @@ class Home extends React.Component {
     // }))
     let newParam = ''
     for (let param in state) {
-      console.log('param')
-      console.log(param)
-      console.log('state[param]')
-      console.log(state[param])
       if (state[param] && state[param].length !== 0 && param !== 'tags') {
         if (param === 'tagSelected') {
           newParam += `&tag=${state[param]}`
@@ -96,11 +84,8 @@ class Home extends React.Component {
           continue
         }
         newParam += `&${param}=${state[param]}`
-        console.log(newParam)
       }
     }
-    console.log('newParam')
-    console.log(newParam)
     filterAdverts(newParam).then(adverts => this.setState({ adverts }))
   }
 
@@ -109,7 +94,7 @@ class Home extends React.Component {
     return (
       <>
         <NavBar />
-        {paramTag && <Filter onFilterChange={this.onFilterChange} tagSelected={paramTag} />}
+        <Filter onFilterChange={this.onFilterChange} tagSelected={paramTag} />
         <AdvertList adverts={adverts} />
       </>
     )
