@@ -22,8 +22,11 @@
   padding-top: 56.25%;
 }
 
-.button {
-  margin: 8px;
+#button-no-material,
+.button:disabled {
+  margin: 2px;
+  color: rgb(220, 0, 78);
+  border-color: rgb(220, 0, 78);
 }
 
 #avatar-no-material,

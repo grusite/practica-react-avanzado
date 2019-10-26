@@ -11,8 +11,7 @@ import CardActions from '@material-ui/core/CardActions'
 import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import ShareIcon from '@material-ui/icons/Share'
+import Button from '@material-ui/core/Button'
 import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutlined'
 import AttachMoneyOutlinedIcon from '@material-ui/icons/AttachMoneyOutlined'
 import Grid from '@material-ui/core/Grid'
@@ -103,14 +102,16 @@ class Advert extends React.Component {
               <Typography id="card-description" variant="body2" color="textSecondary" component="p">
                 {advert.description}
               </Typography>
+              <Typography id="card-price" variant="h5" component="p">
+                {advert.price} €
+              </Typography>
             </CardContent>
             <CardActions disableSpacing onClick={this.goToDetail}>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
+              {advert.tags.map(tag => (
+                <Button variant="outlined" id="button-no-material" disabled className="button">
+                  {tag}
+                </Button>
+              ))}
             </CardActions>
           </Card>
         </Grid>
