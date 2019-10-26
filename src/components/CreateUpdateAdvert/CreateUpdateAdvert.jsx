@@ -24,8 +24,7 @@ import Select from '@material-ui/core/Select'
 import InputAdornment from '@material-ui/core/InputAdornment'
 
 import NavBar from '../Navbar/Navbar'
-import SelectTag from './SelectTag'
-import SelectTag2 from './SelectTag2'
+import MySnackbarContentWrapper from './StatusMessages'
 
 import { getTags, createAd, updateAd } from '../../services/AdsAPIService'
 
@@ -51,6 +50,8 @@ const initialState = {
   photo: '',
   tags: [],
   tagsSelected: [],
+  success: false,
+  error: false,
 }
 
 class createUpdateAdvert extends React.Component {
@@ -118,11 +119,45 @@ class createUpdateAdvert extends React.Component {
 
   handleSubmit = () => {
     const body = this.state
-    const id = this.props.location.state.advert._id
     if (this.comeFromUpdate()) {
-      updateAd(body, id).then(this.props.history.push('/advert'))
+      const id = this.props.location.state.advert._id
+      updateAd(body, id)
+        .then(() => {
+          this.setState(prevState => ({
+            ...prevState,
+            success: true,
+          }))
+        })
+        .then(() => {
+          setTimeout(() => {
+            this.props.history.push('/advert')
+          }, 3000)
+        })
+        .catch(() => {
+          this.setState(prevState => ({
+            ...prevState,
+            error: true,
+          }))
+        })
     } else {
-      createAd(body).then(this.props.history.push('/advert'))
+      createAd(body)
+        .then(() => {
+          this.setState(prevState => ({
+            ...prevState,
+            success: true,
+          }))
+        })
+        .then(() => {
+          setTimeout(() => {
+            this.props.history.push('/advert')
+          }, 3000)
+        })
+        .catch(() => {
+          this.setState(prevState => ({
+            ...prevState,
+            error: true,
+          }))
+        })
     }
   }
 
@@ -144,6 +179,26 @@ class createUpdateAdvert extends React.Component {
         </Typography>
       )
       buttonText = 'Update'
+    }
+
+    let statusMessage = ''
+
+    if (this.state.success) {
+      statusMessage = (
+        <MySnackbarContentWrapper
+          variant="success"
+          className="margin"
+          message="Everything was good!"
+        />
+      )
+    } else if (this.state.error) {
+      statusMessage = (
+        <MySnackbarContentWrapper
+          variant="error"
+          className="margin"
+          message="An error has ocurred, please try again :("
+        />
+      )
     }
 
     return (
@@ -251,6 +306,9 @@ class createUpdateAdvert extends React.Component {
                     ))}
                   </Select>
                 </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                {statusMessage}
               </Grid>
             </Grid>
             <Grid item xs={12} container justify="space-around">

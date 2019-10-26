@@ -158,7 +158,6 @@ class Register extends React.Component {
                   <InputLabel htmlFor="outlined-tag-native-simple">Tag</InputLabel>
                   <Select
                     native
-                    required
                     onChange={this.handleChange}
                     inputProps={{
                       name: 'tag',

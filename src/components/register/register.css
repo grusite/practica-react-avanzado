@@ -23,6 +23,7 @@ body {
 .formControl {
   margin: 8px;
   min-width: 120;
+  width: 100%;
 }
 
 #submit-no-material,
