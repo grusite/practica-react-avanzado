@@ -106,7 +106,7 @@ function Navbar(props) {
             </Fab>
           </Tooltip>
           <Typography variant="h6" className={classes.title}>
-            <Link to="/">NodePop</Link>
+            <Link to="/advert">NodePop</Link>
           </Typography>
           <div>
             <IconButton

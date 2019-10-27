@@ -65,18 +65,21 @@ class createUpdateAdvert extends React.Component {
 
   async componentDidMount() {
     // Si no está logado le llevo a registro
-    const user = JSON.parse(getItem('NodePop-User'))
-    if (!user || !user.isLoggedIn) {
+    const userReminded = JSON.parse(getItem('NodePop-User'))
+    const userStored = this.props.loginReducer.isLoggedIn
+    if (!userReminded && !userStored) {
       this.props.history.push('/register')
       return
     }
 
     // Si lo está y recarga la pagina, le vuelvo a guardar en el estado el usuario
-    await this.props.login(
-      JSON.parse(getItem('NodePop-User')).name,
-      JSON.parse(getItem('NodePop-User')).surname,
-      JSON.parse(getItem('NodePop-User')).tag
-    )
+    if (!userStored) {
+      await this.props.login(
+        JSON.parse(getItem('NodePop-User')).name,
+        JSON.parse(getItem('NodePop-User')).surname,
+        JSON.parse(getItem('NodePop-User')).tag
+      )
+    }
 
     // Si estoy editando un anuncio, edito los valores con lo que tenía el anuncio
     // Y si no me descargo los tags y dejo los valores vacíos

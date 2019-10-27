@@ -124,7 +124,6 @@ class Register extends React.Component {
 
   render() {
     const { name, surname, tags } = this.state.user
-    console.log(this.state)
     let statusMessage = ''
 
     if (this.state.success) {
