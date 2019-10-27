@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { login } from '../../actions/actions'
 
 import Grid from '@material-ui/core/Grid'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 
@@ -36,6 +37,7 @@ class AdvertDetail extends React.Component {
         tags: [],
       },
       advert: this.props.location.state.advert,
+      loading: true,
     }
   }
 
@@ -58,7 +60,7 @@ class AdvertDetail extends React.Component {
     }
 
     const advertId = this.props.match.params.id
-    getAdvertById(advertId).then(advert => this.setState({ advert }))
+    getAdvertById(advertId).then(advert => this.setState({ ...this.state, advert, loading: false }))
   }
 
   goBack = () => {
@@ -67,22 +69,39 @@ class AdvertDetail extends React.Component {
 
   render() {
     const { advert } = this.state
+
+    let body
+
+    if (this.state.loading) {
+      body = (
+        <Grid container justify="center" alignItems="center" className="card-container">
+          <CircularProgress size={80} thickness={3.7} disableShrink className="circular-progress" />
+        </Grid>
+      )
+    } else {
+      body = (
+        <>
+          <Grid container justify="center" alignItems="center" className="card-container">
+            <Typography variant="h5" component="h5">
+              A continuación puede ver el detalle del anuncio seleccionado
+            </Typography>
+          </Grid>
+          <Grid container justify="space-around" alignItems="center" className="card-container">
+            <Advert advert={advert} />
+          </Grid>
+          <Grid container justify="space-around" alignItems="center" className="card-container">
+            <Button variant="contained" color="primary" className="button" onClick={this.goBack}>
+              Atras
+            </Button>
+          </Grid>
+        </>
+      )
+    }
+
     return (
       <>
         <NavBar />
-        <Grid container justify="center" alignItems="center" className="card-container">
-          <Typography variant="h5" component="h5">
-            A continuación puede ver el detalle del anuncio seleccionado
-          </Typography>
-        </Grid>
-        <Grid container justify="space-around" alignItems="center" className="card-container">
-          <Advert advert={advert} />
-        </Grid>
-        <Grid container justify="space-around" alignItems="center" className="card-container">
-          <Button variant="contained" color="primary" className="button" onClick={this.goBack}>
-            Atras
-          </Button>
-        </Grid>
+        {body}
       </>
     )
   }

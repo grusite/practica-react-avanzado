@@ -7,6 +7,9 @@ import { login } from '../../actions/actions'
 import NavBar from '../Navbar/Navbar'
 import AdvertList from '../AdvertList/AdvertList'
 import Filter from '../Filter/Filter'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Grid from '@material-ui/core/Grid'
+import './home.css'
 
 import { filterAdverts } from '../../services/AdsAPIService'
 
@@ -36,6 +39,7 @@ class Home extends React.Component {
       },
       adverts: [],
       params: '',
+      loading: true,
     }
   }
 
@@ -60,15 +64,16 @@ class Home extends React.Component {
     let paramTagfromState = this.props.loginReducer.tag
     paramTag = paramTagfromState ? paramTagfromState : ''
     let params = paramTag ? `tag=${paramTag}` : ''
-    filterAdverts(params).then(adverts => this.setState({ adverts }))
+    filterAdverts(params).then(adverts => this.setState({ ...this.state, adverts, loading: false }))
   }
 
   onFilterChange = state => {
-    // let newParam = this.state.params + `&${name}=${value}`
-    // this.setState(prevState => ({
-    //   ...prevState,
-    //   params: newParam,
-    // }))
+    // Activo el loader
+    this.setState(prevState => ({
+      ...prevState,
+      loading: true,
+    }))
+
     let newParam = ''
     for (let param in state) {
       if (state[param] && state[param].length !== 0 && param !== 'tags') {
@@ -89,16 +94,35 @@ class Home extends React.Component {
         newParam += `&${param}=${state[param]}`
       }
     }
-    filterAdverts(newParam).then(adverts => this.setState({ adverts }))
+    filterAdverts(newParam).then(adverts =>
+      this.setState({ ...this.state, adverts, loading: false })
+    )
   }
 
   render() {
     const { adverts } = this.state
+
+    let bodyHome
+
+    if (this.state.loading) {
+      bodyHome = (
+        <Grid container justify="center" alignItems="center" className="card-container">
+          <CircularProgress size={80} thickness={3.7} disableShrink className="circular-progress" />
+        </Grid>
+      )
+    } else {
+      bodyHome = (
+        <>
+          <Filter onFilterChange={this.onFilterChange} tagSelected={paramTag} />
+          <AdvertList adverts={adverts} />
+        </>
+      )
+    }
+
     return (
       <>
         <NavBar />
-        <Filter onFilterChange={this.onFilterChange} tagSelected={paramTag} />
-        <AdvertList adverts={adverts} />
+        {bodyHome}
       </>
     )
   }
