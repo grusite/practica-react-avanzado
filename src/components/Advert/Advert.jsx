@@ -77,7 +77,7 @@ class Advert extends React.Component {
       )
     }
 
-    if (advert.photo.startsWith('/images/anuncios')) imgUrl = `http://localhost:3001${advert.photo}`
+    if (advert.photo.startsWith('/images/anuncios')) imgUrl = `http://localhost:8080${advert.photo}`
     return (
       <>
         <Grid item id="item-no-material" className="card-item">
@@ -126,7 +126,4 @@ class Advert extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(Advert))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Advert))

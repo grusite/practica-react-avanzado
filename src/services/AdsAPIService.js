@@ -1,4 +1,4 @@
-const API = 'http://localhost:3001/apiv1'
+const API = 'http://localhost:8080/apiv1'
 
 export const getAdverts = () => {
   return fetch(`${API}/anuncios/`, {
