@@ -5,6 +5,7 @@ import { login } from '../../actions/actions'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 import Advert from '../Advert/Advert'
 
@@ -31,7 +32,23 @@ class AdvertList extends React.Component {
     }
   }
 
-  renderAdverts = adverts => {
+  renderAdverts = (adverts, isFetching) => {
+    if (isFetching) {
+      return (
+        <Grid container justify="center" alignItems="center" className="card-container">
+          <CircularProgress size={80} thickness={3.7} disableShrink className="circular-progress" />
+        </Grid>
+      )
+    }
+    if (!isFetching && (!adverts || adverts.length === 0)) {
+      return (
+        <Grid container justify="center" alignItems="center" className="card-container">
+          <Typography variant="h5" component="h5">
+            No existen anuncios con esos criterios de búsqueda
+          </Typography>
+        </Grid>
+      )
+    }
     return (
       <>
         <Grid container justify="center" alignItems="center" className="card-container">
@@ -49,22 +66,9 @@ class AdvertList extends React.Component {
   }
 
   render() {
-    const { adverts } = this.props
-    return (
-      <>
-        {adverts && this.renderAdverts(adverts)}
-
-        {(!adverts || adverts.length === 0) && (
-          <Typography variant="h2" component="h2">
-            No hay anuncios
-          </Typography>
-        )}
-      </>
-    )
+    const { adverts, isFetching } = this.props
+    return <>{adverts && this.renderAdverts(adverts, isFetching)}</>
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(AdvertList))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AdvertList))

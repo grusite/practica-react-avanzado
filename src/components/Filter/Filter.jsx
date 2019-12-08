@@ -41,7 +41,7 @@ const initialState = {
   tagSelected: '',
 }
 
-class createUpdateAdvert extends React.Component {
+class Filter extends React.Component {
   constructor(props) {
     super(props)
     this.state = initialState
@@ -203,7 +203,4 @@ class createUpdateAdvert extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(createUpdateAdvert))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Filter))

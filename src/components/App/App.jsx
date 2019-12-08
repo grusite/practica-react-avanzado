@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import Home from '../Home/Home'
+import Home from '../Home'
 import Register from '../Register/Register'
 import AdvertDetail from '../AdvertDetail/AdvertDetail'
 import CreateUpdateAdvert from '../CreateUpdateAdvert/CreateUpdateAdvert'
