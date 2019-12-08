@@ -16,6 +16,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import MySnackbarContentWrapper from '../StatusMessages/StatusMessages'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 import { connect } from 'react-redux'
 import { login } from '../../actions/actions'
@@ -125,6 +126,7 @@ class Register extends React.Component {
   render() {
     const { name, surname, tags } = this.state.user
     let statusMessage = ''
+    let loadingButton = ''
 
     if (this.state.success) {
       statusMessage = (
@@ -134,6 +136,20 @@ class Register extends React.Component {
           className="margin"
           message="¡Registro correcto!"
         />
+      )
+
+      loadingButton = (
+        <Button
+          id="submit-no-material"
+          type="submit"
+          className="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          disabled
+        >
+          <CircularProgress />
+        </Button>
       )
     } else if (this.state.infoMessage) {
       statusMessage = (
@@ -221,16 +237,18 @@ class Register extends React.Component {
                 />
               </Grid>
             </Grid>
-            <Button
-              id="submit-no-material"
-              type="submit"
-              className="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-            >
-              Registrate
-            </Button>
+            {loadingButton || (
+              <Button
+                id="submit-no-material"
+                type="submit"
+                className="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+              >
+                Registrate
+              </Button>
+            )}
           </form>
         </div>
         <Box mt={5}>
@@ -241,7 +259,4 @@ class Register extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(Register))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Register))

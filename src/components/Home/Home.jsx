@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { login } from '../../actions/actions'
+import { fetchAdverts } from '../../actions/actions'
 
 import NavBar from '../Navbar/Navbar'
 import AdvertList from '../AdvertList/AdvertList'
@@ -19,6 +20,7 @@ const { getItem } = storage()
 
 const mapDispatchToProps = dispatch => ({
   login: (name, surname, tag) => dispatch(login(name, surname, tag)),
+  fetchAdverts: adverts => fetchAdverts()(dispatch, adverts),
 })
 
 const mapStateToProps = state => ({
@@ -64,15 +66,17 @@ class Home extends React.Component {
     let paramTagfromState = this.props.loginReducer.tag
     paramTag = paramTagfromState ? paramTagfromState : ''
     let params = paramTag ? `tag=${paramTag}` : ''
-    filterAdverts(params).then(adverts => this.setState({ ...this.state, adverts, loading: false }))
+
+    // adverts => this.setState({ ...this.state, adverts, loading: false })
+    filterAdverts(params).then(adverts => this.props.fetchAdverts(adverts))
   }
 
   onFilterChange = state => {
     // Activo el loader
-    this.setState(prevState => ({
-      ...prevState,
-      loading: true,
-    }))
+    // this.setState(prevState => ({
+    //   ...prevState,
+    //   loading: true,
+    // }))
 
     let newParam = ''
     for (let param in state) {
@@ -94,17 +98,18 @@ class Home extends React.Component {
         newParam += `&${param}=${state[param]}`
       }
     }
-    filterAdverts(newParam).then(adverts =>
-      this.setState({ ...this.state, adverts, loading: false })
-    )
+    // adverts => this.setState({ ...this.state, adverts, loading: false })
+    filterAdverts(newParam).then(adverts => this.props.fetchAdverts(adverts))
   }
 
   render() {
-    const { adverts } = this.state
+    const { adverts, ui } = this.props.advertsReducer
+    console.log('ads', adverts, 'ui', ui)
+    console.log('isfetch', ui.isFetching)
 
     let bodyHome
 
-    if (this.state.loading) {
+    if (ui.isFetching) {
       bodyHome = (
         <Grid container justify="center" alignItems="center" className="card-container">
           <CircularProgress size={80} thickness={3.7} disableShrink className="circular-progress" />
@@ -119,6 +124,8 @@ class Home extends React.Component {
       )
     }
 
+    console.log(bodyHome)
+
     return (
       <>
         <NavBar />
@@ -128,7 +135,4 @@ class Home extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(Home))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Home))
