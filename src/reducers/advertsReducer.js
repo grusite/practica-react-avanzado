@@ -40,15 +40,3 @@ export default (state = defaultState, action) => {
       return state
   }
 }
-
-// export const adverts = (state = defaultState.adverts, action) => {
-//   switch (action.type) {
-//     case types.FETCH_ADVERTS_SUCCESS:
-//       return Object.assign({}, state, {
-//         adverts: action.adverts,
-//       })
-
-//     default:
-//       return state
-//   }
-// }
