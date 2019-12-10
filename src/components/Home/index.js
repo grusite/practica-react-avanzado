@@ -4,9 +4,8 @@ import Home from './Home'
 import { login, fetchAdverts } from '../../actions/actions'
 
 const mapDispatchToProps = dispatch => ({
-  //   loadAdverts: fetchAdverts,
   login: (name, surname, tag) => dispatch(login(name, surname, tag)),
-  fetchAdverts: adverts => fetchAdverts()(dispatch, adverts),
+  fetchAdverts: params => fetchAdverts()(dispatch, params),
 })
 
 const mapStateToProps = state => ({

@@ -6,6 +6,7 @@ export const getAdverts = () => {
   })
     .then(res => res.json())
     .then(res => res.results)
+    .catch(error => console.error('Error:', error))
 }
 
 export const getAdvertById = id => {
@@ -14,6 +15,7 @@ export const getAdvertById = id => {
   })
     .then(res => res.json())
     .then(res => res.result)
+    .catch(error => console.error('Error:', error))
 }
 
 export const filterAdverts = params => {
@@ -22,6 +24,7 @@ export const filterAdverts = params => {
   })
     .then(res => res.json())
     .then(res => res.results)
+    .catch(error => console.error('Error:', error))
 }
 
 export const getTags = () => {
@@ -30,6 +33,7 @@ export const getTags = () => {
   })
     .then(res => res.json())
     .then(res => res.results)
+    .catch(error => console.error('Error:', error))
 }
 
 export const createAd = data => {

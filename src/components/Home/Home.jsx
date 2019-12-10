@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { filterAdverts } from '../../services/AdsAPIService'
 
 import NavBar from '../Navbar/Navbar'
 import AdvertList from '../AdvertList/AdvertList'
@@ -32,7 +31,8 @@ export default function Home(props) {
 
   /* eslint-disable*/
   useEffect(() => {
-    filterAdverts(params).then(adverts => fetchAdverts(adverts))
+    // filterAdverts(params).then(adverts => fetchAdverts(adverts))
+    fetchAdverts(params)
   }, [params])
 
   const onFilterChange = state => {

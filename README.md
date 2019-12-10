@@ -1,6 +1,6 @@
 # NodePop
 
-It's a frontal made in React unsing the [Nodepop API](https://github.com/IsmaelB83/keepcoding-backend-node) developed in Node.
+A React application that uses the [Nodepop API](https://github.com/IsmaelB83/keepcoding-backend-node) developed in Node.
 
 ## Available Scripts
 
@@ -40,6 +40,17 @@ The web page seems intuitive, but just in case I will explain the functionality:
 - Also, by clicking in the edit icon from the advert card, the user will be able to edit the same.
 - Additionally, the user can both logout and see profile by clicking in the user icon at the right side of the navbar.
 - In case you choose another path not known by the app, it will return you a 404 page.
+
+### Adding hooks
+
+- For this exercise I have added Redux for managing user info and loading adverts.
+- I have refactored my Home component to add hooks (useState and useEffect). The rest I kept it using class and internal state.
+-
+
+### Tests
+
+- I have placed the \*.test.js under the file to be tested.
+- I have decided to test actions, and xx component
 
 ## Author
 

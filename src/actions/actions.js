@@ -1,4 +1,5 @@
 import * as TYPES from '../utils/actionTypes'
+import { filterAdverts } from '../services/AdsAPIService'
 
 export const login = (name, surname, tag) => ({
   type: TYPES.LOGIN,
@@ -12,12 +13,11 @@ export const logout = () => ({
 })
 
 export const fetchAdverts = () => {
-  return async function(dispatch, adverts) {
+  return async function(dispatch, params) {
     dispatch(fetchAdvertsRequest())
     try {
-      setTimeout(() => {
-        dispatch(fetchAdvertsSuccess(adverts))
-      }, 1000)
+      const adverts = await filterAdverts(params)
+      dispatch(fetchAdvertsSuccess(adverts))
     } catch (error) {
       dispatch(fetchAdvertsFailure(error))
     }

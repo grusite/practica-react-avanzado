@@ -83,7 +83,6 @@ class createUpdateAdvert extends React.Component {
 
     // Si estoy editando un anuncio, edito los valores con lo que tenía el anuncio
     // Y si no me descargo los tags y dejo los valores vacíos
-    // const update = this.props.match.path === '/update'
     if (this.comeFromUpdate()) {
       const advert = this.props.location.state.advert
       this.setState({
@@ -378,7 +377,4 @@ class createUpdateAdvert extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(createUpdateAdvert))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(createUpdateAdvert))
