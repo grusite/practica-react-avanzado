@@ -50,7 +50,7 @@ The web page seems intuitive, but just in case I will explain the functionality:
 ### Tests
 
 - I have placed the \*.test.js under the file to be tested.
-- I have decided to test actions, and xx component
+- I have decided to test all my actions, reducers and Home component
 
 ## Author
 

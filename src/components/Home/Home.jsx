@@ -22,16 +22,12 @@ export default function Home(props) {
 
   // Si lo está y recarga la pagina, le vuelvo a guardar en el estado el usuario
   if (!userStored) {
-    login(
-      JSON.parse(getItem('NodePop-User')).name,
-      JSON.parse(getItem('NodePop-User')).surname,
-      JSON.parse(getItem('NodePop-User')).tag
-    )
+    const { name, surname, tag } = JSON.parse(getItem('NodePop-User'))
+    login(name, surname, tag)
   }
 
   /* eslint-disable*/
   useEffect(() => {
-    // filterAdverts(params).then(adverts => fetchAdverts(adverts))
     fetchAdverts(params)
   }, [params])
 
