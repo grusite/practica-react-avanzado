@@ -41,16 +41,16 @@ The web page seems intuitive, but just in case I will explain the functionality:
 - Additionally, the user can both logout and see profile by clicking in the user icon at the right side of the navbar.
 - In case you choose another path not known by the app, it will return you a 404 page.
 
-### Adding hooks
+### Adding hooks, HOC, Render Props...
 
-- For this exercise I have added Redux for managing user info and loading adverts.
-- I have refactored my Home component to add hooks (useState and useEffect). The rest I kept it using class and internal state.
--
+- For this exercise I have added Redux in the whole app for managing both: the user info and the loaded adverts.
+- I have only refactored my Home component to add hooks (useState and useEffect).
+- As I used Material Ui for my application, and therefore I do not have inputs, so I did not see necesary to use HOCs or Render Props. I decided to use only Hooks.
 
 ### Tests
 
 - I have placed the \*.test.js under the file to be tested.
-- I have decided to test all my actions, reducers and Home component
+- I have decided to test all my actions, reducers and the Home component.
 
 ## Author
 
