@@ -1,15 +1,15 @@
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
-import Home from './Home'
-import { login, fetchAdverts } from '../../actions/actions'
+import Home from "./Home";
+import { login, fetchAdverts } from "../../actions/actions";
 
 const mapDispatchToProps = dispatch => ({
-  login: (name, surname, tag) => dispatch(login(name, surname, tag)),
-  fetchAdverts: params => fetchAdverts()(dispatch, params),
-})
+  loginUser: (name, surname, tag) => dispatch(login(name, surname, tag)),
+  fetchAdverts: params => fetchAdverts()(dispatch, params)
+});
 
 const mapStateToProps = state => ({
-  ...state,
-})
+  ...state
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

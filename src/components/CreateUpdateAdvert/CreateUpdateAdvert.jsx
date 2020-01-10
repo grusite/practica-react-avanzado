@@ -1,138 +1,143 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { login } from '../../actions/actions'
+import React from "react";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { login } from "../../actions/actions";
 
-import Grid from '@material-ui/core/Grid'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
-import Container from '@material-ui/core/Container'
-import Button from '@material-ui/core/Button'
-import FormGroup from '@material-ui/core/FormGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutlined'
-import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket'
-import AttachMoneyOutlinedIcon from '@material-ui/icons/AttachMoneyOutlined'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import ListItemText from '@material-ui/core/ListItemText'
-import Select from '@material-ui/core/Select'
-import InputAdornment from '@material-ui/core/InputAdornment'
+import Grid from "@material-ui/core/Grid";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import ShoppingBasketOutlinedIcon from "@material-ui/icons/ShoppingBasketOutlined";
+import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
+import AttachMoneyOutlinedIcon from "@material-ui/icons/AttachMoneyOutlined";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import ListItemText from "@material-ui/core/ListItemText";
+import Select from "@material-ui/core/Select";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
-import NavBar from '../Navbar/Navbar'
-import MySnackbarContentWrapper from '../StatusMessages/StatusMessages'
+import NavBar from "../Navbar/Navbar";
+import MySnackbarContentWrapper from "../StatusMessages/StatusMessages";
 
-import { getTags, createAd, updateAd } from '../../services/AdsAPIService'
+import { getTags, createAd, updateAd } from "../../services/AdsAPIService";
 
-import storage from '../../utils/storage'
+import storage from "../../utils/storage";
 
-import './createUpdateAdvert.css'
+import "./createUpdateAdvert.css";
 
-const { getItem } = storage()
+const { getItem } = storage();
 
 const mapDispatchToProps = dispatch => ({
-  login: (name, surname, tag) => dispatch(login(name, surname, tag)),
-})
+  login: (name, surname, tag) => dispatch(login(name, surname, tag))
+});
 
 const mapStateToProps = state => ({
-  ...state,
-})
+  ...state
+});
 
 const initialState = {
-  type: 'buy',
-  name: '',
-  description: '',
+  type: "buy",
+  name: "",
+  description: "",
   price: 0,
-  photo: '',
+  photo: "",
   tags: [],
   tagsSelected: [],
   success: false,
   error: false,
-  infoMessage: false,
-}
+  infoMessage: false
+};
 
 class createUpdateAdvert extends React.Component {
   constructor(props) {
-    super(props)
-    this.state = initialState
+    super(props);
+    this.state = initialState;
 
-    this.handleChange = this.handleChange.bind(this)
+    this.handleChange = this.handleChange.bind(this);
   }
 
   async componentDidMount() {
     // Si no está logado le llevo a registro
-    const userReminded = JSON.parse(getItem('NodePop-User'))
-    const userStored = this.props.loginReducer.isLoggedIn
+    const userReminded = JSON.parse(getItem("NodePop-User"));
+    const userStored = this.props.user.isLoggedIn;
     if (!userReminded && !userStored) {
-      this.props.history.push('/register')
-      return
+      this.props.history.push("/register");
+      return;
     }
 
     // Si lo está y recarga la pagina, le vuelvo a guardar en el estado el usuario
     if (!userStored) {
       await this.props.login(
-        JSON.parse(getItem('NodePop-User')).name,
-        JSON.parse(getItem('NodePop-User')).surname,
-        JSON.parse(getItem('NodePop-User')).tag
-      )
+        JSON.parse(getItem("NodePop-User")).name,
+        JSON.parse(getItem("NodePop-User")).surname,
+        JSON.parse(getItem("NodePop-User")).tag
+      );
     }
 
     // Si estoy editando un anuncio, edito los valores con lo que tenía el anuncio
     // Y si no me descargo los tags y dejo los valores vacíos
     if (this.comeFromUpdate()) {
-      const advert = this.props.location.state.advert
+      const advert = this.props.location.state.advert;
       this.setState({
         type: advert.type,
         name: advert.name,
         description: advert.description,
         price: advert.price,
         photo: advert.photo,
-        tagsSelected: advert.tags,
-      })
+        tagsSelected: advert.tags
+      });
     }
 
     getTags().then(tags => {
       this.setState(prevState => ({
         ...prevState,
-        tags,
-      }))
-    })
+        tags
+      }));
+    });
   }
 
   comeFromUpdate = () => {
-    return this.props.match.path === '/update'
-  }
+    return this.props.match.path === "/update";
+  };
 
   resetForm = () => {
-    this.setState(initialState)
-  }
+    this.setState(initialState);
+  };
 
   handleClose = () => {
-    this.setState({ ...this.state, error: false, success: false, infoMessage: false })
-  }
+    this.setState({
+      ...this.state,
+      error: false,
+      success: false,
+      infoMessage: false
+    });
+  };
 
   handleChange(event) {
-    const { name, value } = event.target
+    const { name, value } = event.target;
 
     this.setState(prevState => ({
       ...prevState,
-      [name]: value,
-    }))
+      [name]: value
+    }));
   }
 
   handleSubmit = () => {
-    const { type, name, description, price, photo, tagsSelected } = this.state
+    const { type, name, description, price, photo, tagsSelected } = this.state;
 
     if (!name || !price || !photo || !tagsSelected) {
       this.setState(prevState => ({
         ...prevState,
-        infoMessage: true,
-      }))
-      return
+        infoMessage: true
+      }));
+      return;
     }
 
     const body = {
@@ -141,72 +146,80 @@ class createUpdateAdvert extends React.Component {
       description,
       price,
       photo,
-      tags: tagsSelected,
-    }
+      tags: tagsSelected
+    };
 
     if (this.comeFromUpdate()) {
-      const id = this.props.location.state.advert._id
+      const id = this.props.location.state.advert._id;
       updateAd(body, id)
         .then(() => {
           this.setState(prevState => ({
             ...prevState,
-            success: true,
-          }))
+            success: true
+          }));
         })
         .then(() => {
           setTimeout(() => {
-            this.props.history.push('/advert')
-          }, 2000)
+            this.props.history.push("/advert");
+          }, 2000);
         })
         .catch(() => {
           this.setState(prevState => ({
             ...prevState,
-            error: true,
-          }))
-        })
+            error: true
+          }));
+        });
     } else {
       createAd(body)
         .then(() => {
           this.setState(prevState => ({
             ...prevState,
-            success: true,
-          }))
+            success: true
+          }));
         })
         .then(() => {
           setTimeout(() => {
-            this.props.history.push('/advert')
-          }, 2000)
+            this.props.history.push("/advert");
+          }, 2000);
         })
         .catch(() => {
           this.setState(prevState => ({
             ...prevState,
-            error: true,
-          }))
-        })
+            error: true
+          }));
+        });
     }
-  }
+  };
 
   render() {
-    const { type, name, description, price, photo, tags, tagsSelected } = this.state
+    const {
+      type,
+      name,
+      description,
+      price,
+      photo,
+      tags,
+      tagsSelected
+    } = this.state;
 
     let title = (
       <Typography variant="h6" gutterBottom>
         Crea tu nuevo anuncio
       </Typography>
-    )
+    );
 
-    let buttonText = 'Crear'
+    let buttonText = "Crear";
 
     if (this.comeFromUpdate()) {
       title = (
         <Typography variant="h6" gutterBottom>
           Edita el anuncio seleccionado
         </Typography>
-      )
-      buttonText = 'Actualizar'
+      );
+      buttonText = "Actualizar";
     }
 
-    let statusMessage = ''
+    let statusMessage = "";
 
     if (this.state.success) {
       statusMessage = (
@@ -216,7 +229,7 @@ class createUpdateAdvert extends React.Component {
           className="margin"
           message="¡Todo correcto!"
         />
-      )
+      );
     } else if (this.state.error) {
       statusMessage = (
         <MySnackbarContentWrapper
@@ -225,7 +238,7 @@ class createUpdateAdvert extends React.Component {
           className="margin"
           message="Ha ocurrido un error, intentelo más tarde"
         />
-      )
+      );
     } else if (this.state.infoMessage) {
       statusMessage = (
         <MySnackbarContentWrapper
@@ -234,7 +247,7 @@ class createUpdateAdvert extends React.Component {
           className="margin"
           message="Debe rellenar los marcados con asterisco"
         />
-      )
+      );
     }
 
     return (
@@ -255,7 +268,7 @@ class createUpdateAdvert extends React.Component {
                         value="buy"
                         name="type"
                         onChange={this.handleChange}
-                        checked={type === 'buy'}
+                        checked={type === "buy"}
                       />
                     }
                     label="Comprar"
@@ -268,7 +281,7 @@ class createUpdateAdvert extends React.Component {
                         value="sell"
                         name="type"
                         onChange={this.handleChange}
-                        checked={type === 'sell'}
+                        checked={type === "sell"}
                       />
                     }
                     label="Vender"
@@ -308,7 +321,9 @@ class createUpdateAdvert extends React.Component {
                     value={price}
                     name="price"
                     onChange={this.handleChange}
-                    startAdornment={<InputAdornment position="start">€</InputAdornment>}
+                    startAdornment={
+                      <InputAdornment position="start">€</InputAdornment>
+                    }
                   />
                 </FormControl>
               </Grid>
@@ -335,7 +350,7 @@ class createUpdateAdvert extends React.Component {
                     name="tagsSelected"
                     onChange={this.handleChange}
                     input={<Input id="select-multiple-checkbox" />}
-                    renderValue={selected => selected.join(', ')}
+                    renderValue={selected => selected.join(", ")}
                   >
                     {tags.map(tag => (
                       <MenuItem key={tag} value={tag}>
@@ -373,8 +388,11 @@ class createUpdateAdvert extends React.Component {
           </div>
         </Container>
       </>
-    )
+    );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(createUpdateAdvert))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(createUpdateAdvert));
