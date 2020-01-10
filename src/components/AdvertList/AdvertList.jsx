@@ -1,23 +1,12 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { login } from "../../actions/actions";
 
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import Advert from "../Advert/Advert";
+import Advert from "../Advert";
 
 import "../Advert/advert.css";
-
-const mapDispatchToProps = dispatch => ({
-  login: (name, surname) => dispatch(login(name, surname))
-});
-
-const mapStateToProps = state => ({
-  isLoggedIn: state.user.isLoggedIn
-});
 
 class AdvertList extends React.Component {
   constructor(props) {
@@ -96,7 +85,4 @@ class AdvertList extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(AdvertList));
+export default AdvertList;

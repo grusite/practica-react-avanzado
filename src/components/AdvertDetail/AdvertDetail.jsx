@@ -1,15 +1,12 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { login } from "../../actions/actions";
 
 import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
-import NavBar from "../Navbar/Navbar";
-import Advert from "../Advert/Advert";
+import NavBar from "../Navbar";
+import Advert from "../Advert";
 import { getAdvertById } from "../../services/AdsAPIService";
 
 import storage from "../../utils/storage";
@@ -17,14 +14,6 @@ import storage from "../../utils/storage";
 import "../Advert/advert.css";
 
 const { getItem } = storage();
-
-const mapDispatchToProps = dispatch => ({
-  login: (name, surname, tag) => dispatch(login(name, surname, tag))
-});
-
-const mapStateToProps = state => ({
-  ...state
-});
 
 class AdvertDetail extends React.Component {
   constructor(props) {
@@ -139,7 +128,4 @@ class AdvertDetail extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(AdvertDetail));
+export default AdvertDetail;

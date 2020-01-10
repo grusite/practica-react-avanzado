@@ -1,7 +1,4 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { login } from "../../actions/actions";
 
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -18,16 +15,6 @@ import Grid from "@material-ui/core/Grid";
 import EditIcon from "@material-ui/icons/Edit";
 
 import "./advert.css";
-
-const mapDispatchToProps = dispatch => ({
-  login: (name, surname) => dispatch(login(name, surname))
-});
-
-const mapStateToProps = state => ({
-  login: state.user,
-  isLoggedIn: state.user.isLoggedIn,
-  name: state.user.name
-});
 
 class Advert extends React.Component {
   constructor(props) {
@@ -136,4 +123,4 @@ class Advert extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Advert));
+export default Advert;

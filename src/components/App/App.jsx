@@ -1,20 +1,20 @@
-import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Home from '../Home'
-import Register from '../Register/Register'
-import AdvertDetail from '../AdvertDetail/AdvertDetail'
-import CreateUpdateAdvert from '../CreateUpdateAdvert/CreateUpdateAdvert'
-import Error404 from '../Error404/Error404'
+import Home from "../Home";
+import Register from "../Register";
+import AdvertDetail from "../AdvertDetail";
+import CreateUpdateAdvert from "../CreateUpdateAdvert";
+import Error404 from "../Error404";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
-    super(props)
-    this.state = { error: null }
+    super(props);
+    this.state = { error: null };
   }
 
   componentDidCatch(error, errorInfo) {
-    this.setState({ error })
+    this.setState({ error });
   }
 
   render() {
@@ -24,21 +24,22 @@ class ErrorBoundary extends React.Component {
           <div className="snap-message">
             <p>We're sorry - something's gone wrong.</p>
             <p>
-              Our team has been notified, but click <button>here</button> to fill out a report.
+              Our team has been notified, but click <button>here</button> to
+              fill out a report.
             </p>
           </div>
         </div>
-      )
+      );
     } else {
-      return this.props.children
+      return this.props.children;
     }
   }
 }
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
-    this.state = {}
+    super(props);
+    this.state = {};
   }
 
   // <Route component={Error404} />
@@ -58,8 +59,8 @@ class App extends React.Component {
           </Switch>
         </Router>
       </ErrorBoundary>
-    )
+    );
   }
 }
 
-export default App
+export default App;

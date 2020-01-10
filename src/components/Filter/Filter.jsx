@@ -1,52 +1,41 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { login } from '../../actions/actions'
+import React from "react";
 
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import FormGroup from '@material-ui/core/FormGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutlined'
-import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket'
-import AttachMoneyOutlinedIcon from '@material-ui/icons/AttachMoneyOutlined'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import FormHelperText from '@material-ui/core/FormHelperText'
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import ShoppingBasketOutlinedIcon from "@material-ui/icons/ShoppingBasketOutlined";
+import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
+import AttachMoneyOutlinedIcon from "@material-ui/icons/AttachMoneyOutlined";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
-import { getTags } from '../../services/AdsAPIService'
+import { getTags } from "../../services/AdsAPIService";
 
-import './filter.css'
-
-const mapDispatchToProps = dispatch => ({
-  login: (name, surname, tag) => dispatch(login(name, surname, tag)),
-})
-
-const mapStateToProps = state => ({
-  ...state,
-})
+import "./filter.css";
 
 const initialState = {
-  type: 'buy',
-  name: '',
-  description: '',
+  type: "buy",
+  name: "",
+  description: "",
   price: 0,
   tags: [],
-  tagSelected: '',
-}
+  tagSelected: ""
+};
 
 class Filter extends React.Component {
   constructor(props) {
-    super(props)
-    this.state = initialState
+    super(props);
+    this.state = initialState;
 
-    this.handleChange = this.handleChange.bind(this)
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -54,35 +43,35 @@ class Filter extends React.Component {
       this.setState(prevState => ({
         ...prevState,
         tags,
-        tagSelected: [this.props.tagSelected],
-      }))
-    })
+        tagSelected: [this.props.tagSelected]
+      }));
+    });
   }
 
   resetForm = () => {
-    this.setState({})
-  }
+    this.setState({});
+  };
 
   handleChange(event) {
-    const { name, value } = event.target
+    const { name, value } = event.target;
 
     this.setState(prevState => ({
       ...prevState,
-      [name]: value,
-    }))
+      [name]: value
+    }));
   }
 
   resetForm = () => {
-    initialState.tags = this.state.tags
-    this.setState(initialState)
-  }
+    initialState.tags = this.state.tags;
+    this.setState(initialState);
+  };
 
   handleSubmit = () => {
-    this.props.onFilterChange(this.state)
-  }
+    this.props.onFilterChange(this.state);
+  };
 
   render() {
-    const { type, name, description, price, tags, tagSelected } = this.state
+    const { type, name, description, price, tags, tagSelected } = this.state;
 
     return (
       <>
@@ -101,7 +90,7 @@ class Filter extends React.Component {
                       value="buy"
                       name="type"
                       onChange={this.handleChange}
-                      checked={type === 'buy'}
+                      checked={type === "buy"}
                     />
                   }
                   label="Compra"
@@ -114,7 +103,7 @@ class Filter extends React.Component {
                       value="sell"
                       name="type"
                       onChange={this.handleChange}
-                      checked={type === 'sell'}
+                      checked={type === "sell"}
                     />
                   }
                   label="Venta"
@@ -152,7 +141,9 @@ class Filter extends React.Component {
                     value={price}
                     name="price"
                     onChange={this.handleChange}
-                    startAdornment={<InputAdornment position="start">€</InputAdornment>}
+                    startAdornment={
+                      <InputAdornment position="start">€</InputAdornment>
+                    }
                   />
                   <FormHelperText>min-max | -max | min- </FormHelperText>
                 </FormControl>
@@ -199,8 +190,8 @@ class Filter extends React.Component {
           </Grid>
         </div>
       </>
-    )
+    );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Filter))
+export default Filter;

@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import Home from "./Home";
-import AdvertList from "../AdvertList/AdvertList";
+import AdvertList from "../AdvertList";
 import Filter from "../Filter/Filter";
 
 describe("Home component test", () => {

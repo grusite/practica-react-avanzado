@@ -1,132 +1,120 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
+import React from "react";
 
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import TextField from '@material-ui/core/TextField'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import Grid from '@material-ui/core/Grid'
-import Box from '@material-ui/core/Box'
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
-import Typography from '@material-ui/core/Typography'
-import Container from '@material-ui/core/Container'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
-import MySnackbarContentWrapper from '../StatusMessages/StatusMessages'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import MySnackbarContentWrapper from "../StatusMessages/StatusMessages";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { connect } from 'react-redux'
-import { login } from '../../actions/actions'
+import { getTags } from "../../services/AdsAPIService";
 
-import { getTags } from '../../services/AdsAPIService'
+import storage from "../../utils/storage";
 
-import storage from '../../utils/storage'
+import "./register.css";
 
-import './register.css'
-
-const { setItem, getItem } = storage()
-
-const mapDispatchToProps = dispatch => ({
-  login: (name, surname, tag) => dispatch(login(name, surname, tag)),
-})
-
-const mapStateToProps = state => ({
-  ...state,
-})
+const { setItem, getItem } = storage();
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '} {new Date().getFullYear()}
-      {'.'}
+      {"Copyright © "} {new Date().getFullYear()}
+      {"."}
     </Typography>
-  )
+  );
 }
 
 class Register extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       user: {
         isLoggedIn: false,
-        name: '',
-        surname: '',
+        name: "",
+        surname: "",
         tags: [],
-        tag: '',
+        tag: ""
       },
       remindMe: false,
       success: false,
-      infoMessage: false,
-    }
+      infoMessage: false
+    };
   }
 
   componentDidMount() {
     // Si ya está logado le llevo a la Home
-    const user = JSON.parse(getItem('NodePop-User'))
-    if (user && user.isLoggedIn) this.props.history.push('/advert')
+    const user = JSON.parse(getItem("NodePop-User"));
+    if (user && user.isLoggedIn) this.props.history.push("/advert");
 
     getTags().then(tags => {
       this.setState(prevState => ({
         user: {
           ...prevState.user,
-          tags,
-        },
-      }))
-    })
+          tags
+        }
+      }));
+    });
   }
 
   handleChange = event => {
-    const { name, value } = event.target
+    const { name, value } = event.target;
 
     this.setState(prevState => ({
       user: {
         ...prevState.user,
-        [name]: value,
-      },
-    }))
-  }
+        [name]: value
+      }
+    }));
+  };
 
   handleCheckbox = name => event => {
-    this.setState({ ...this.state, [name]: event.target.checked })
-  }
+    this.setState({ ...this.state, [name]: event.target.checked });
+  };
 
   handleSubmit = event => {
-    const { name, surname, tag } = this.state.user
+    const { name, surname, tag } = this.state.user;
     if (name && surname && tag) {
-      this.setState({ ...this.state, success: true })
-      event.preventDefault()
-      this.props.login(name, surname, tag)
+      this.setState({ ...this.state, success: true });
+      event.preventDefault();
+      this.props.login(name, surname, tag);
       if (this.state.remindMe) {
         setItem(
-          'NodePop-User',
+          "NodePop-User",
           JSON.stringify({
             isLoggedIn: true,
             name,
             surname,
-            tag,
+            tag
           })
-        )
+        );
       }
       setTimeout(() => {
-        this.props.history.push('/advert')
-      }, 2000)
+        this.props.history.push("/advert");
+      }, 2000);
     } else {
-      event.preventDefault()
-      this.setState({ ...this.state, infoMessage: true })
+      event.preventDefault();
+      this.setState({ ...this.state, infoMessage: true });
     }
-  }
+  };
 
   handleClose = () => {
-    this.setState({ ...this.state, infoMessage: false, success: false })
-  }
+    this.setState({ ...this.state, infoMessage: false, success: false });
+  };
 
   render() {
-    const { name, surname, tags } = this.state.user
-    let statusMessage = ''
-    let loadingButton = ''
+    const { name, surname, tags } = this.state.user;
+    let statusMessage = "";
+    let loadingButton = "";
 
     if (this.state.success) {
       statusMessage = (
@@ -136,7 +124,7 @@ class Register extends React.Component {
           className="margin"
           message="¡Registro correcto!"
         />
-      )
+      );
 
       loadingButton = (
         <Button
@@ -150,7 +138,7 @@ class Register extends React.Component {
         >
           <CircularProgress />
         </Button>
-      )
+      );
     } else if (this.state.infoMessage) {
       statusMessage = (
         <MySnackbarContentWrapper
@@ -159,7 +147,7 @@ class Register extends React.Component {
           className="margin"
           message="Por favor, rellene todos los campos"
         />
-      )
+      );
     }
 
     return (
@@ -203,13 +191,15 @@ class Register extends React.Component {
               </Grid>
               <Grid item xs={12}>
                 <FormControl variant="outlined" className="formControl">
-                  <InputLabel htmlFor="outlined-tag-native-simple">Tag</InputLabel>
+                  <InputLabel htmlFor="outlined-tag-native-simple">
+                    Tag
+                  </InputLabel>
                   <Select
                     native
                     onChange={this.handleChange}
                     inputProps={{
-                      name: 'tag',
-                      id: 'outlined-tag-native-simple',
+                      name: "tag",
+                      id: "outlined-tag-native-simple"
                     }}
                   >
                     <option value="" />
@@ -229,7 +219,7 @@ class Register extends React.Component {
                   control={
                     <Checkbox
                       value="remindMe"
-                      onChange={this.handleCheckbox('remindMe')}
+                      onChange={this.handleCheckbox("remindMe")}
                       color="primary"
                     />
                   }
@@ -255,8 +245,8 @@ class Register extends React.Component {
           <Copyright />
         </Box>
       </Container>
-    )
+    );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Register))
+export default Register;

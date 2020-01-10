@@ -4,7 +4,7 @@ import Home from "./Home";
 import { login, fetchAdverts } from "../../actions/actions";
 
 const mapDispatchToProps = dispatch => ({
-  loginUser: (name, surname, tag) => dispatch(login(name, surname, tag)),
+  login: (name, surname, tag) => dispatch(login(name, surname, tag)),
   fetchAdverts: params => fetchAdverts()(dispatch, params)
 });
 

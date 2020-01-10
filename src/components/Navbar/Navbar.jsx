@@ -1,6 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -56,10 +55,6 @@ function getModalStyle() {
     transform: `translate(-${top}%, -${left}%)`
   };
 }
-
-const mapStateToProps = state => ({
-  ...state
-});
 
 function Navbar(props) {
   const classes = useStyles();
@@ -178,4 +173,4 @@ class NavBarTest extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(withRouter(NavBarTest));
+export default NavBarTest;

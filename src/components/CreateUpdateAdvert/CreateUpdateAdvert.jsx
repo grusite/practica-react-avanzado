@@ -1,7 +1,4 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { login } from "../../actions/actions";
 
 import Grid from "@material-ui/core/Grid";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -23,7 +20,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Select from "@material-ui/core/Select";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
-import NavBar from "../Navbar/Navbar";
+import NavBar from "../Navbar";
 import MySnackbarContentWrapper from "../StatusMessages/StatusMessages";
 
 import { getTags, createAd, updateAd } from "../../services/AdsAPIService";
@@ -33,14 +30,6 @@ import storage from "../../utils/storage";
 import "./createUpdateAdvert.css";
 
 const { getItem } = storage();
-
-const mapDispatchToProps = dispatch => ({
-  login: (name, surname, tag) => dispatch(login(name, surname, tag))
-});
-
-const mapStateToProps = state => ({
-  ...state
-});
 
 const initialState = {
   type: "buy",
@@ -392,7 +381,4 @@ class createUpdateAdvert extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(createUpdateAdvert));
+export default createUpdateAdvert;

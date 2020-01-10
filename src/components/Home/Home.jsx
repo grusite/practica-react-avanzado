@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import NavBar from "../Navbar/Navbar";
-import AdvertList from "../AdvertList/AdvertList";
+import NavBar from "../Navbar";
+import AdvertList from "../AdvertList";
 import Filter from "../Filter/Filter";
 import "./home.css";
 
@@ -9,7 +9,7 @@ import storage from "../../utils/storage";
 const { getItem } = storage();
 
 export default function Home(props) {
-  const { adverts, loginUser, user, fetchAdverts, history } = props;
+  const { adverts, login, user, fetchAdverts, history } = props;
   const [params, setParams] = useState(user.tag ? `tag=${user.tag}` : "");
   const [tagSelected, setTagSelected] = useState(user.tag);
 
@@ -23,7 +23,7 @@ export default function Home(props) {
   // Si lo está y recarga la pagina, le vuelvo a guardar en el estado el usuario
   if (!userStored) {
     const { name, surname, tag } = JSON.parse(getItem("NodePop-User"));
-    loginUser(name, surname, tag);
+    login(name, surname, tag);
   }
 
   /* eslint-disable*/
