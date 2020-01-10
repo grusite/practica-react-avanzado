@@ -21,7 +21,7 @@ import Select from "@material-ui/core/Select";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
 import NavBar from "../Navbar";
-import MySnackbarContentWrapper from "../StatusMessages/StatusMessages";
+import MySnackbarContentWrapper from "../StatusMessages";
 
 import { getTags, createAd, updateAd } from "../../services/AdsAPIService";
 
