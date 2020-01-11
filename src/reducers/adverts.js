@@ -14,7 +14,7 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case /_REQUEST$/.test(action.type):
+    case (action.type.match(/_REQUEST$/) || {}).input:
       return Object.assign({}, state, {
         ui: {
           isFetching: true,
@@ -37,7 +37,7 @@ export default (state = defaultState, action) => {
           error: null
         }
       });
-    case /_FAILURE$/.test(action.type):
+    case (action.type.match(/_FAILURE$/) || {}).input:
       return Object.assign({}, state, {
         ui: {
           isFetching: false,
