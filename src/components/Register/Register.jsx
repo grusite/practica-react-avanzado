@@ -17,13 +17,11 @@ import Select from "@material-ui/core/Select";
 import MySnackbarContentWrapper from "../StatusMessages/StatusMessages";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { getTags } from "../../services/AdsAPIService";
-
 import storage from "../../utils/storage";
 
 import "./register.css";
 
-const { setItem, getItem } = storage();
+const { setItem } = storage();
 
 function Copyright() {
   return (
@@ -42,28 +40,13 @@ class Register extends React.Component {
         isLoggedIn: false,
         name: "",
         surname: "",
-        tags: [],
         tag: ""
       },
+      tags: this.props.adverts.tags,
       remindMe: false,
       success: false,
       infoMessage: false
     };
-  }
-
-  componentDidMount() {
-    // Si ya está logado le llevo a la Home
-    const user = JSON.parse(getItem("NodePop-User"));
-    if (user && user.isLoggedIn) this.props.history.push("/advert");
-
-    getTags().then(tags => {
-      this.setState(prevState => ({
-        user: {
-          ...prevState.user,
-          tags
-        }
-      }));
-    });
   }
 
   handleChange = event => {
@@ -112,7 +95,7 @@ class Register extends React.Component {
   };
 
   render() {
-    const { name, surname, tags } = this.state.user;
+    const { user, tags } = this.state;
     let statusMessage = "";
     let loadingButton = "";
 
@@ -170,7 +153,7 @@ class Register extends React.Component {
                   required
                   fullWidth
                   id="name"
-                  value={name}
+                  value={user.name}
                   onChange={this.handleChange}
                   label="Nombre"
                   autoFocus
@@ -184,7 +167,7 @@ class Register extends React.Component {
                   id="surname"
                   label="Apellido"
                   name="surname"
-                  value={surname}
+                  value={user.surname}
                   onChange={this.handleChange}
                   autoComplete="lname"
                 />
