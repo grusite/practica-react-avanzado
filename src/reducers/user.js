@@ -1,11 +1,11 @@
-import { LOGIN, LOGOUT } from '../utils/actionTypes'
+import { LOGIN, LOGOUT } from "../utils/actionTypes";
 
 const defaultState = {
   isLoggedIn: false,
-  name: '',
-  surname: '',
-  tag: '',
-}
+  name: "",
+  surname: "",
+  tag: ""
+};
 
 export default (state = defaultState, action) => {
   switch (action.type) {
@@ -14,15 +14,15 @@ export default (state = defaultState, action) => {
         isLoggedIn: true,
         name: action.name,
         surname: action.surname,
-        tag: action.tag,
-      })
+        tag: action.tag
+      });
     case LOGOUT:
       return Object.assign({}, state, {
         isLoggedIn: false,
-        name: '',
-        surname: '',
-      })
+        name: "",
+        surname: ""
+      });
     default:
-      return state
+      return state;
   }
-}
+};

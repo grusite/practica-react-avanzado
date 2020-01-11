@@ -1,8 +1,18 @@
-import { combineReducers } from "redux";
+import { combineReducers, compose } from "redux";
 import user from "./user";
 import adverts from "./adverts";
 
-export default combineReducers({
+const lastActionReducerEnhancer = reducer => (
+  { lastAction, ...state },
+  action
+) => ({
+  ...reducer(state, action),
+  lastAction: action
+});
+
+const createRootReducer = compose(lastActionReducerEnhancer, combineReducers);
+
+export default createRootReducer({
   user,
   adverts
 });

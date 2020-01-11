@@ -1,42 +1,50 @@
 import {
-  FETCH_ADVERTS_REQUEST,
   FETCH_ADVERTS_SUCCESS,
-  FETCH_ADVERTS_FAILURE,
-} from '../utils/actionTypes'
+  TAGS_LOAD_SUCCESFULL
+} from "../utils/actionTypes";
 
 const defaultState = {
   adverts: [],
+  tags: [],
   ui: {
     isFetching: false,
-    error: null,
-  },
-}
+    error: null
+  }
+};
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case FETCH_ADVERTS_REQUEST:
+    case /_REQUEST$/.test(action.type):
       return Object.assign({}, state, {
         ui: {
           isFetching: true,
-          error: null,
-        },
-      })
+          error: null
+        }
+      });
     case FETCH_ADVERTS_SUCCESS:
       return Object.assign({}, state, {
         adverts: action.adverts,
         ui: {
           isFetching: false,
-          error: null,
-        },
-      })
-    case FETCH_ADVERTS_FAILURE:
+          error: null
+        }
+      });
+    case TAGS_LOAD_SUCCESFULL:
+      return Object.assign({}, state, {
+        tags: action.tags,
+        ui: {
+          isFetching: false,
+          error: null
+        }
+      });
+    case /_FAILURE$/.test(action.type):
       return Object.assign({}, state, {
         ui: {
           isFetching: false,
-          error: action.error,
-        },
-      })
+          error: action.error
+        }
+      });
     default:
-      return state
+      return state;
   }
-}
+};
