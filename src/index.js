@@ -32,7 +32,6 @@ const store = configureStore({
 store.subscribe(() => {
   const { lastAction, user } = store.getState();
 
-  console.log("lastAction", lastAction);
   if (lastAction.type === TYPES.LOGIN && lastAction.remindMe) {
     setItem("NodePop-User", JSON.stringify(user));
   }
