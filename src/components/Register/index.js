@@ -2,10 +2,11 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import Register from "./Register";
-import { login } from "../../actions/actions";
+import { userLogin } from "../../actions/actions";
 
 const mapDispatchToProps = dispatch => ({
-  login: (name, surname, tag) => dispatch(login(name, surname, tag))
+  userLogin: (name, surname, tag, remindMe) =>
+    dispatch(userLogin(name, surname, tag, remindMe))
 });
 
 const mapStateToProps = state => ({

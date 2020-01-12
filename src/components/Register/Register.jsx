@@ -17,11 +17,7 @@ import Select from "@material-ui/core/Select";
 import MySnackbarContentWrapper from "../StatusMessages/StatusMessages";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import storage from "../../utils/storage";
-
 import "./register.css";
-
-const { setItem } = storage();
 
 function Copyright() {
   return (
@@ -65,27 +61,12 @@ class Register extends React.Component {
   };
 
   handleSubmit = event => {
-    const { name, surname, tag } = this.state.user;
-    if (name && surname && tag) {
+    const { user, remindMe } = this.state;
+    event.preventDefault();
+    if (user.name && user.surname && user.tag) {
       this.setState({ ...this.state, success: true });
-      event.preventDefault();
-      this.props.login(name, surname, tag);
-      if (this.state.remindMe) {
-        setItem(
-          "NodePop-User",
-          JSON.stringify({
-            isLoggedIn: true,
-            name,
-            surname,
-            tag
-          })
-        );
-      }
-      setTimeout(() => {
-        this.props.history.push("/advert");
-      }, 2000);
+      this.props.userLogin(user.name, user.surname, user.tag, remindMe);
     } else {
-      event.preventDefault();
       this.setState({ ...this.state, infoMessage: true });
     }
   };

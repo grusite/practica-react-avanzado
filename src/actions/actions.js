@@ -1,12 +1,18 @@
 import * as TYPES from "../utils/actionTypes";
 import { getTags, filterAdverts } from "../services/AdsAPIService";
 
-export const login = (name, surname, tag) => ({
+export const login = (name, surname, tag, remindMe) => ({
   type: TYPES.LOGIN,
   name,
   surname,
-  tag
+  tag,
+  remindMe
 });
+
+export const userLogin = (...args) => (dispatch, _getState, { history }) => {
+  dispatch(login(...args));
+  history.push("/");
+};
 
 export const logout = () => ({
   type: TYPES.LOGOUT
