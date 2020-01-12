@@ -69,7 +69,7 @@ function Navbar(props) {
 
   const handleLogOut = () => {
     setAnchorEl(null);
-    localStorage.clear();
+    props.userLogout();
   };
 
   const handleClose = () => {
@@ -101,7 +101,7 @@ function Navbar(props) {
             </Fab>
           </Tooltip>
           <Typography variant="h6" className={classes.title}>
-            <Link to="/advert">NodePop</Link>
+            <Link to="/">NodePop</Link>
           </Typography>
           <div>
             <IconButton
@@ -142,9 +142,7 @@ function Navbar(props) {
                   </p>
                 </div>
               </Modal>
-              <MenuItem onClick={handleLogOut}>
-                <Link to="/register">Logout</Link>
-              </MenuItem>
+              <MenuItem onClick={handleLogOut}>Logout</MenuItem>
             </Menu>
           </div>
         </Toolbar>
@@ -156,9 +154,7 @@ function Navbar(props) {
 class NavBarTest extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: "Jorge"
-    };
+    this.state = {};
   }
 
   goToCreateAdvert = () => {
@@ -168,7 +164,11 @@ class NavBarTest extends React.Component {
   render() {
     const nombreUsuario = this.props.user.name + " " + this.props.user.surname;
     return (
-      <Navbar goTo={this.goToCreateAdvert} nombreUsuario={nombreUsuario} />
+      <Navbar
+        goTo={this.goToCreateAdvert}
+        nombreUsuario={nombreUsuario}
+        userLogout={this.props.userLogout}
+      />
     );
   }
 }

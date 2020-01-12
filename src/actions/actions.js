@@ -9,14 +9,19 @@ export const login = (name, surname, tag, remindMe) => ({
   remindMe
 });
 
+export const logout = () => ({
+  type: TYPES.LOGOUT
+});
+
 export const userLogin = (...args) => (dispatch, _getState, { history }) => {
   dispatch(login(...args));
   history.push("/");
 };
 
-export const logout = () => ({
-  type: TYPES.LOGOUT
-});
+export const userLogout = (...args) => (dispatch, _getState, { history }) => {
+  dispatch(logout(...args));
+  history.push("/register");
+};
 
 export const loadTagsRequest = () => ({
   type: TYPES.TAGS_LOAD_REQUEST
