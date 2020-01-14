@@ -13,7 +13,6 @@ const App = () => (
   <ErrorBoundary>
     <Switch>
       <Route path="/register" component={Register} />
-      <PrivateRoute exact path="/advert" component={Home} />
       <PrivateRoute path="/advert/:id" component={AdvertDetail} />
       <PrivateRoute path="/create" component={CreateUpdateAdvert} />
       <PrivateRoute path="/update" component={CreateUpdateAdvert} />

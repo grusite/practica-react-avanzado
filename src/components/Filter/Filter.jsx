@@ -17,8 +17,6 @@ import Select from "@material-ui/core/Select";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import FormHelperText from "@material-ui/core/FormHelperText";
 
-import { getTags } from "../../services/AdsAPIService";
-
 import "./filter.css";
 
 const initialState = {
@@ -34,23 +32,11 @@ class Filter extends React.Component {
   constructor(props) {
     super(props);
     this.state = initialState;
+    this.state.tags = this.props.tags;
+    this.state.tagSelected = this.props.tagSelected;
 
     this.handleChange = this.handleChange.bind(this);
   }
-
-  componentDidMount() {
-    getTags().then(tags => {
-      this.setState(prevState => ({
-        ...prevState,
-        tags,
-        tagSelected: [this.props.tagSelected]
-      }));
-    });
-  }
-
-  resetForm = () => {
-    this.setState({});
-  };
 
   handleChange(event) {
     const { name, value } = event.target;

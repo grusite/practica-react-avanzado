@@ -5,11 +5,12 @@ export const isUserRegistered = state => {
   return !!session;
 };
 
-export const getTags = state => state.tags;
+export const getTags = state => state.adverts.tags;
+
+export const getUser = state => state.user;
 
 export const getAdverts = state => state.adverts;
 
-export const getAdvert = state => advertId =>
-  getAdverts(state).find(advert => advert._id === advertId);
+export const getAdvert = state => getAdverts(state).adverts[0];
 
-export const getUi = state => state.ui;
+export const getUi = state => state.adverts.ui;

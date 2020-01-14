@@ -1,19 +1,15 @@
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
 
 import Register from "./Register";
 import { userLogin } from "../../actions/actions";
+import { getTags } from "../../selectors";
 
-const mapDispatchToProps = dispatch => ({
-  userLogin: (name, surname, tag, remindMe) =>
-    dispatch(userLogin(name, surname, tag, remindMe))
-});
+const mapDispatchToProps = {
+  userLogin
+};
 
 const mapStateToProps = state => ({
-  ...state
+  tags: getTags(state)
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(Register));
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

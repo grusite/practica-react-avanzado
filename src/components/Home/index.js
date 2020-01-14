@@ -1,15 +1,17 @@
 import { connect } from "react-redux";
 
 import Home from "./Home";
-import { login, fetchAdverts } from "../../actions/actions";
+import { fetchAdverts } from "../../actions/actions";
+import { getAdverts, getUi, getUser } from "../../selectors";
 
 const mapDispatchToProps = dispatch => ({
-  login: (name, surname, tag) => dispatch(login(name, surname, tag)),
-  fetchAdverts: params => fetchAdverts()(dispatch, params)
+  fetchAdverts: params => dispatch(fetchAdverts(params))
 });
 
 const mapStateToProps = state => ({
-  ...state
+  adverts: getAdverts(state),
+  user: getUser(state),
+  ui: getUi(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

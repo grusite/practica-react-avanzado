@@ -2,14 +2,17 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import AdvertDetail from "./AdvertDetail";
-import { login } from "../../actions/actions";
+import { fetchAdvertById } from "../../actions/actions";
+import { getAdvert, getUi } from "../../selectors";
 
 const mapDispatchToProps = dispatch => ({
-  login: (name, surname, tag) => dispatch(login(name, surname, tag))
+  fetchAdvertById: advertId => dispatch(fetchAdvertById(advertId))
 });
 
 const mapStateToProps = state => ({
-  ...state
+  advert: getAdvert(state),
+  adverts: state.adverts,
+  ui: getUi(state)
 });
 
 export default connect(

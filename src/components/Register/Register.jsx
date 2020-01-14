@@ -38,7 +38,7 @@ class Register extends React.Component {
         surname: "",
         tag: ""
       },
-      tags: this.props.adverts.tags,
+      tags: this.props.tags,
       remindMe: false,
       success: false,
       infoMessage: false

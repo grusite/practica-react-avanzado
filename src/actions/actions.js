@@ -1,5 +1,9 @@
 import * as TYPES from "../utils/actionTypes";
-import { getTags, filterAdverts } from "../services/AdsAPIService";
+import {
+  getTags,
+  filterAdverts,
+  getAdvertById
+} from "../services/AdsAPIService";
 
 export const login = (name, surname, tag, remindMe) => ({
   type: TYPES.LOGIN,
@@ -61,14 +65,36 @@ export const fetchAdvertsFailure = error => ({
   error
 });
 
-export const fetchAdverts = () => {
-  return async function(dispatch, params) {
-    dispatch(fetchAdvertsRequest());
-    try {
-      const adverts = await filterAdverts(params);
-      dispatch(fetchAdvertsSuccess(adverts));
-    } catch (error) {
-      dispatch(fetchAdvertsFailure(error));
-    }
-  };
+// export const fetchAdverts = () => {
+//   return async function(dispatch, params) {
+//     dispatch(fetchAdvertsRequest());
+//     try {
+//       const adverts = await filterAdverts(params);
+//       dispatch(fetchAdvertsSuccess(adverts));
+//     } catch (error) {
+//       dispatch(fetchAdvertsFailure(error));
+//     }
+//   };
+// };
+
+export const fetchAdverts = params => async dispatch => {
+  dispatch(fetchAdvertsRequest());
+  try {
+    const adverts = await filterAdverts(params);
+    dispatch(fetchAdvertsSuccess(adverts));
+  } catch (error) {
+    dispatch(fetchAdvertsFailure(error));
+  }
 };
+
+export const fetchAdvertById = advertId => async dispatch => {
+  dispatch(fetchAdvertsRequest());
+  try {
+    const advert = await getAdvertById(advertId);
+    dispatch(fetchAdvertsSuccess([advert]));
+  } catch (error) {
+    dispatch(fetchAdvertsFailure(error));
+  }
+};
+
+// export const

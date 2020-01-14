@@ -7,63 +7,39 @@ import Button from "@material-ui/core/Button";
 
 import NavBar from "../Navbar";
 import Advert from "../Advert";
-import { getAdvertById } from "../../services/AdsAPIService";
-
-import storage from "../../utils/storage";
 
 import "../Advert/advert.css";
-
-const { getItem } = storage();
 
 class AdvertDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {
-        isLoggedIn: false,
-        name: "",
-        surname: "",
-        tags: []
-      },
-      advert: this.props.location.state.advert,
-      loading: true
+      advert: {},
+      ui: {
+        isFetching: true,
+        error: ""
+      }
     };
   }
 
   async componentDidMount() {
-    // Si no está logado le llevo a registro
-    const userReminded = JSON.parse(getItem("NodePop-User"));
-    const userStored = this.props.user.isLoggedIn;
-    if (!userReminded && !userStored) {
-      this.props.history.push("/register");
-      return;
-    }
-
-    // Si lo está y recarga la pagina, le vuelvo a guardar en el estado el usuario
-    if (!userStored) {
-      await this.props.login(
-        JSON.parse(getItem("NodePop-User")).name,
-        JSON.parse(getItem("NodePop-User")).surname,
-        JSON.parse(getItem("NodePop-User")).tag
-      );
-    }
-
     const advertId = this.props.match.params.id;
-    getAdvertById(advertId).then(advert =>
-      this.setState({ ...this.state, advert, loading: false })
-    );
+    await this.props.fetchAdvertById(advertId);
+    this.setState({
+      advert: this.props.advert,
+      ui: this.props.ui
+    });
   }
 
   goBack = () => {
-    this.props.history.push("/advert");
+    this.props.history.push("/");
   };
 
   render() {
-    const { advert } = this.state;
-
+    const { advert, ui } = this.state;
     let body;
 
-    if (this.state.loading) {
+    if (ui.isFetching) {
       body = (
         <Grid
           container

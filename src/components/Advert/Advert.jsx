@@ -20,28 +20,16 @@ class Advert extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {
-        isLoggedIn: false,
-        name: "",
-        surname: "",
-        tags: []
-      },
       advert: this.props.advert
     };
   }
 
   goToDetail = () => {
-    this.props.history.push({
-      pathname: `/advert/${this.state.advert._id}`,
-      state: { advert: this.props.advert }
-    });
+    this.props.history.push(`/advert/${this.state.advert._id}`);
   };
 
   goToUpdate = () => {
-    this.props.history.push({
-      pathname: `/update/${this.state.advert._id}`,
-      state: { advert: this.props.advert }
-    });
+    this.props.history.push(`/update/${this.state.advert._id}`);
   };
 
   render() {
