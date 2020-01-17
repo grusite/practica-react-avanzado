@@ -31,9 +31,11 @@ const initialState = {
 class Filter extends React.Component {
   constructor(props) {
     super(props);
-    this.state = initialState;
-    this.state.tags = this.props.tags;
-    this.state.tagSelected = this.props.tagSelected;
+    this.state = {
+      ...initialState,
+      tags: this.props.tags,
+      tagSelected: this.props.tagSelected
+    };
   }
 
   handleChange = event => {

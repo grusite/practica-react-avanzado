@@ -26,13 +26,19 @@ import MySnackbarContentWrapper from "../StatusMessages";
 import "./createUpdateAdvert.css";
 
 const initialState = {
-  type: "buy",
-  name: "",
-  description: "",
-  price: 0,
-  photo: "",
-  tags: [],
-  tagsSelected: [],
+  advert: {
+    type: "buy",
+    name: "",
+    description: "",
+    price: 0,
+    photo: "",
+    tags: []
+  },
+  ui: {
+    isFetching: true,
+    error: ""
+  },
+  allTags: [],
   success: false,
   error: false,
   infoMessage: false
@@ -41,22 +47,19 @@ const initialState = {
 class createUpdateAdvert extends React.Component {
   constructor(props) {
     super(props);
+    initialState.allTags = this.props.tags;
     this.state = initialState;
-    this.state.tags = this.props.tags;
   }
 
   async componentDidMount() {
     // Si estoy editando un anuncio, edito los valores con lo que tenía el anuncio
-    // Y si no me descargo los tags y dejo los valores vacíos
+    // Y si no recupero del store los tags y dejo los valores vacíos
     if (this.comeFromUpdate()) {
-      const advert = this.props.advert;
+      const advertId = this.props.match.params.id;
+      await this.props.fetchAdvertById(advertId);
       this.setState({
-        type: advert.type,
-        name: advert.name,
-        description: advert.description,
-        price: advert.price,
-        photo: advert.photo,
-        tagsSelected: advert.tags
+        advert: this.props.advert,
+        ui: this.props.ui
       });
     }
   }
@@ -82,15 +85,17 @@ class createUpdateAdvert extends React.Component {
     const { name, value } = event.target;
 
     this.setState(prevState => ({
-      ...prevState,
-      [name]: value
+      advert: {
+        ...prevState.advert,
+        [name]: value
+      }
     }));
   };
 
-  handleSubmit = () => {
-    const { type, name, description, price, photo, tagsSelected } = this.state;
+  handleSubmit = async () => {
+    const { type, name, description, price, photo, tags } = this.state.advert;
 
-    if (!name || !price || !photo || !tagsSelected) {
+    if (!name || !price || !photo || !tags) {
       this.setState(prevState => ({
         ...prevState,
         infoMessage: true
@@ -104,36 +109,42 @@ class createUpdateAdvert extends React.Component {
       description,
       price,
       photo,
-      tags: tagsSelected
+      tags
     };
 
     if (this.comeFromUpdate()) {
       const id = this.props.match.params.id;
-      this.props.updateAd(ad, id);
-      this.setState(prevState => ({
-        ...prevState,
-        // success: this.props.advertUpdated.success
-        success: true
-      }));
+      await this.props.updateAdvert(ad, id);
+      if (this.props.advertUpdated.success) {
+        this.setState(prevState => ({
+          ...prevState,
+          success: true
+        }));
+      } else {
+        this.setState(prevState => ({
+          ...prevState,
+          error: true
+        }));
+      }
     } else {
-      this.props.createAd(ad);
-      this.setState(prevState => ({
-        ...prevState,
-        success: true
-      }));
+      await this.props.createAdvert(ad);
+      if (this.props.advertCreated.success) {
+        this.setState(prevState => ({
+          ...prevState,
+          success: true
+        }));
+      } else {
+        this.setState(prevState => ({
+          ...prevState,
+          error: true
+        }));
+      }
     }
   };
 
   render() {
-    const {
-      type,
-      name,
-      description,
-      price,
-      photo,
-      tags,
-      tagsSelected
-    } = this.state;
+    const { type, name, description, price, photo, tags } = this.state.advert;
+    const { allTags } = this.state;
 
     let title = (
       <Typography variant="h6" gutterBottom>
@@ -275,19 +286,19 @@ class createUpdateAdvert extends React.Component {
               <Grid item xs={12}>
                 <FormControl fullWidth>
                   <InputLabel required htmlFor="select-multiple-checkbox">
-                    Tag
+                    Tags
                   </InputLabel>
                   <Select
                     multiple
-                    value={tagsSelected}
-                    name="tagsSelected"
+                    value={tags}
+                    name="tags"
                     onChange={this.handleChange}
                     input={<Input id="select-multiple-checkbox" />}
                     renderValue={selected => selected.join(", ")}
                   >
-                    {tags.map(tag => (
+                    {allTags.map(tag => (
                       <MenuItem key={tag} value={tag}>
-                        <Checkbox checked={tagsSelected.indexOf(tag) > -1} />
+                        <Checkbox checked={tags.indexOf(tag) > -1} />
                         <ListItemText primary={tag} />
                       </MenuItem>
                     ))}

@@ -131,7 +131,7 @@ export const updateAdvert = (advert, advertId) => async (
   try {
     const ad = await updateAd(advert, advertId);
     dispatch(updateAdvertsSuccesfull(ad));
-    history.push("/");
+    setTimeout(() => history.push("/"), 2000);
   } catch (error) {
     dispatch(updateAdvertsFailure(error));
   }
@@ -146,7 +146,7 @@ export const createAdvert = advert => async (
   try {
     const ad = await createAd(advert);
     dispatch(createAdvertsSuccesfull(ad));
-    history.push("/");
+    setTimeout(() => history.push("/"), 2000);
   } catch (error) {
     dispatch(createAdvertsFailure(error));
   }
