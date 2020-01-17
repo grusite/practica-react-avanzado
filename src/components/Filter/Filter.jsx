@@ -34,18 +34,16 @@ class Filter extends React.Component {
     this.state = initialState;
     this.state.tags = this.props.tags;
     this.state.tagSelected = this.props.tagSelected;
-
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event) {
+  handleChange = event => {
     const { name, value } = event.target;
 
     this.setState(prevState => ({
       ...prevState,
       [name]: value
     }));
-  }
+  };
 
   resetForm = () => {
     initialState.tags = this.state.tags;

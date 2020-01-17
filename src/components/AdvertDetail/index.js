@@ -11,7 +11,6 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   advert: getAdvert(state),
-  adverts: state.adverts,
   ui: getUi(state)
 });
 

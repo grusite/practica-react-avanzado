@@ -4,7 +4,7 @@ import { createBrowserHistory } from "history";
 import { configureStore } from "./store";
 import storage from "./utils/storage";
 import { loadTags } from "./actions/actions";
-import * as TYPES from "./utils/actionTypes";
+import * as TYPES from "./actions/actionTypes";
 
 // import './index.css'
 import Root from "./components/Root";

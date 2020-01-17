@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from "../utils/actionTypes";
+import { LOGIN, LOGOUT } from "../actions/actionTypes";
 
 const defaultState = {
   isLoggedIn: false,

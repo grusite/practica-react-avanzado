@@ -2,7 +2,7 @@ import {
   FETCH_ADVERTS_REQUEST,
   FETCH_ADVERTS_SUCCESS,
   FETCH_ADVERTS_FAILURE
-} from "../utils/actionTypes";
+} from "../actions/actionTypes";
 
 import adverts from "./adverts";
 

@@ -15,7 +15,7 @@ const App = () => (
       <Route path="/register" component={Register} />
       <PrivateRoute path="/advert/:id" component={AdvertDetail} />
       <PrivateRoute path="/create" component={CreateUpdateAdvert} />
-      <PrivateRoute path="/update" component={CreateUpdateAdvert} />
+      <PrivateRoute path="/update/:id" component={CreateUpdateAdvert} />
       <PrivateRoute exact path="/" component={Home} />
       <PrivateRoute component={Error404} />
     </Switch>

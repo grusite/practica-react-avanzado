@@ -23,8 +23,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import NavBar from "../Navbar";
 import MySnackbarContentWrapper from "../StatusMessages";
 
-import { getTags, createAd, updateAd } from "../../services/AdsAPIService";
-
 import "./createUpdateAdvert.css";
 
 const initialState = {
@@ -44,15 +42,14 @@ class createUpdateAdvert extends React.Component {
   constructor(props) {
     super(props);
     this.state = initialState;
-
-    this.handleChange = this.handleChange.bind(this);
+    this.state.tags = this.props.tags;
   }
 
   async componentDidMount() {
     // Si estoy editando un anuncio, edito los valores con lo que tenía el anuncio
     // Y si no me descargo los tags y dejo los valores vacíos
     if (this.comeFromUpdate()) {
-      const advert = this.props.location.state.advert;
+      const advert = this.props.advert;
       this.setState({
         type: advert.type,
         name: advert.name,
@@ -62,17 +59,10 @@ class createUpdateAdvert extends React.Component {
         tagsSelected: advert.tags
       });
     }
-
-    getTags().then(tags => {
-      this.setState(prevState => ({
-        ...prevState,
-        tags
-      }));
-    });
   }
 
   comeFromUpdate = () => {
-    return this.props.match.path === "/update";
+    return this.props.match.url.match(/^(\/update\/)(\w+$)/g);
   };
 
   resetForm = () => {
@@ -88,14 +78,14 @@ class createUpdateAdvert extends React.Component {
     });
   };
 
-  handleChange(event) {
+  handleChange = event => {
     const { name, value } = event.target;
 
     this.setState(prevState => ({
       ...prevState,
       [name]: value
     }));
-  }
+  };
 
   handleSubmit = () => {
     const { type, name, description, price, photo, tagsSelected } = this.state;
@@ -108,7 +98,7 @@ class createUpdateAdvert extends React.Component {
       return;
     }
 
-    const body = {
+    const ad = {
       type,
       name,
       description,
@@ -118,44 +108,19 @@ class createUpdateAdvert extends React.Component {
     };
 
     if (this.comeFromUpdate()) {
-      const id = this.props.location.state.advert._id;
-      updateAd(body, id)
-        .then(() => {
-          this.setState(prevState => ({
-            ...prevState,
-            success: true
-          }));
-        })
-        .then(() => {
-          setTimeout(() => {
-            this.props.history.push("/advert");
-          }, 2000);
-        })
-        .catch(() => {
-          this.setState(prevState => ({
-            ...prevState,
-            error: true
-          }));
-        });
+      const id = this.props.match.params.id;
+      this.props.updateAd(ad, id);
+      this.setState(prevState => ({
+        ...prevState,
+        // success: this.props.advertUpdated.success
+        success: true
+      }));
     } else {
-      createAd(body)
-        .then(() => {
-          this.setState(prevState => ({
-            ...prevState,
-            success: true
-          }));
-        })
-        .then(() => {
-          setTimeout(() => {
-            this.props.history.push("/advert");
-          }, 2000);
-        })
-        .catch(() => {
-          this.setState(prevState => ({
-            ...prevState,
-            error: true
-          }));
-        });
+      this.props.createAd(ad);
+      this.setState(prevState => ({
+        ...prevState,
+        success: true
+      }));
     }
   };
 
@@ -198,15 +163,6 @@ class createUpdateAdvert extends React.Component {
           message="¡Todo correcto!"
         />
       );
-    } else if (this.state.error) {
-      statusMessage = (
-        <MySnackbarContentWrapper
-          onClose={this.handleClose}
-          variant="error"
-          className="margin"
-          message="Ha ocurrido un error, intentelo más tarde"
-        />
-      );
     } else if (this.state.infoMessage) {
       statusMessage = (
         <MySnackbarContentWrapper
@@ -214,6 +170,15 @@ class createUpdateAdvert extends React.Component {
           variant="warning"
           className="margin"
           message="Debe rellenar los marcados con asterisco"
+        />
+      );
+    } else if (this.state.error) {
+      statusMessage = (
+        <MySnackbarContentWrapper
+          onClose={this.handleClose}
+          variant="error"
+          className="margin"
+          message="Ha ocurrido un error, intentelo más tarde"
         />
       );
     }

@@ -1,64 +1,59 @@
-const API = 'http://localhost:8080/apiv1'
+const API = "http://localhost:8080/apiv1";
 
 export const getAdverts = () => {
   return fetch(`${API}/anuncios/`, {
-    method: 'GET',
+    method: "GET"
   })
     .then(res => res.json())
-    .then(res => res.results)
-    .catch(error => console.error('Error:', error))
-}
+    .then(res => res.results);
+};
 
 export const getAdvertById = id => {
   return fetch(`${API}/anuncios/${id}`, {
-    method: 'GET',
+    method: "GET"
   })
     .then(res => res.json())
-    .then(res => res.result)
-    .catch(error => console.error('Error:', error))
-}
+    .then(res => res.result);
+};
 
 export const filterAdverts = params => {
   return fetch(`${API}/anuncios?${params}`, {
-    method: 'GET',
+    method: "GET"
   })
     .then(res => res.json())
-    .then(res => res.results)
-    .catch(error => console.error('Error:', error))
-}
+    .then(res => res.results);
+};
 
 export const getTags = () => {
   return fetch(`${API}/tags`, {
-    method: 'GET',
+    method: "GET"
   })
     .then(res => res.json())
-    .then(res => res.results)
-    .catch(error => console.error('Error:', error))
-}
+    .then(res => res.results);
+};
 
 export const createAd = data => {
   return fetch(`${API}/anuncios`, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify(data),
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  })
-    .then(res => res.json())
-    .catch(error => console.error('Error:', error))
-}
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
+  }).then(res => res.json());
+};
 
-export const updateAd = (data, id) => {
-  return fetch(`${API}/anuncios/${id}`, {
-    method: 'PUT',
+export const updateAd = async (advert, id) => {
+  let response = await fetch(`${API}/anuncios/${id}`, {
+    method: "PUT",
     // data can be `string` or {object}
-    body: JSON.stringify(data),
+    body: JSON.stringify(advert),
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  })
-    .then(res => res.json())
-    .catch(error => console.error('Error:', error))
-}
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
+  });
+  let data = response.json();
+  console.log("Ha ido bien");
+  return data;
+};

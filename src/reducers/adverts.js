@@ -1,7 +1,10 @@
 import {
   FETCH_ADVERTS_SUCCESS,
-  TAGS_LOAD_SUCCESFULL
-} from "../utils/actionTypes";
+  FETCH_ADVERT_SUCCESS,
+  TAGS_LOAD_SUCCESFULL,
+  ADVERTS_UPDATE_SUCCESFULL,
+  ADVERTS_CREATE_SUCCESFULL
+} from "../actions/actionTypes";
 
 const defaultState = {
   adverts: [],
@@ -29,9 +32,33 @@ export default (state = defaultState, action) => {
           error: null
         }
       });
+    case FETCH_ADVERT_SUCCESS:
+      return Object.assign({}, state, {
+        advertById: action.advert,
+        ui: {
+          isFetching: false,
+          error: null
+        }
+      });
     case TAGS_LOAD_SUCCESFULL:
       return Object.assign({}, state, {
         tags: action.tags,
+        ui: {
+          isFetching: false,
+          error: null
+        }
+      });
+    case ADVERTS_CREATE_SUCCESFULL:
+      return Object.assign({}, state, {
+        advertCreated: action.advert,
+        ui: {
+          isFetching: false,
+          error: null
+        }
+      });
+    case ADVERTS_UPDATE_SUCCESFULL:
+      return Object.assign({}, state, {
+        advertUpdated: action.advert,
         ui: {
           isFetching: false,
           error: null

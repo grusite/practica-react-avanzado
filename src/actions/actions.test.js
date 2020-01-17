@@ -1,7 +1,7 @@
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import * as actions from "./actions";
-import * as TYPES from "../utils/actionTypes";
+import * as TYPES from "./actionTypes";
 import * as advertServices from "../services/AdsAPIService";
 jest.mock("../services/AdsAPIService");
 

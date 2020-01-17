@@ -1,16 +1,23 @@
-export const getSession = state => state.user.isLoggedIn;
+export const getUser = state => state.user;
+
+export const getAdverts = state => state.adverts;
+
+export const getSession = state => getUser(state).isLoggedIn;
 
 export const isUserRegistered = state => {
   const session = getSession(state);
   return !!session;
 };
 
-export const getTags = state => state.adverts.tags;
+export const getTags = state => getAdverts(state).tags;
 
-export const getUser = state => state.user;
+export const getAdvert = state => getAdverts(state).advertById;
 
-export const getAdverts = state => state.adverts;
+export const getUpdatedAdvert = state => getAdverts(state).advertUpdated;
 
-export const getAdvert = state => getAdverts(state).adverts[0];
+export const getCreatedAdvert = state => getAdverts(state).advertCreated;
 
-export const getUi = state => state.adverts.ui;
+export const getAdvertById = state => advertId =>
+  getAdverts(state).adverts.find(advert => advert._id === advertId);
+
+export const getUi = state => getAdverts(state).ui;
