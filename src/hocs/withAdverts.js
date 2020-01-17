@@ -5,7 +5,8 @@ import {
   getAdvert,
   getAdvertById,
   getUpdatedAdvert,
-  getCreatedAdvert
+  getCreatedAdvert,
+  getUi
 } from "../selectors";
 import {
   fetchAdverts,
@@ -19,7 +20,8 @@ const mapStateToProps = (state, ownProps) => ({
   advert: getAdvert(state),
   advertById: getAdvertById(state)(ownProps.match.params.id),
   advertUpdated: getUpdatedAdvert(state),
-  advertCreated: getCreatedAdvert(state)
+  advertCreated: getCreatedAdvert(state),
+  ui: getUi(state)
 });
 
 const mapDispatchToProps = {

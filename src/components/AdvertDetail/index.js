@@ -1,20 +1,7 @@
-import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { compose } from "../../utils/compose";
 
 import AdvertDetail from "./AdvertDetail";
-import { fetchAdvertById } from "../../actions/actions";
-import { getAdvert, getUi } from "../../selectors";
+import withAdverts from "../../hocs/withAdverts";
 
-const mapDispatchToProps = dispatch => ({
-  fetchAdvertById: advertId => dispatch(fetchAdvertById(advertId))
-});
-
-const mapStateToProps = state => ({
-  advert: getAdvert(state),
-  ui: getUi(state)
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(AdvertDetail));
+export default compose(withAdverts, withRouter)(AdvertDetail);

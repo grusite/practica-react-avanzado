@@ -1,15 +1,7 @@
-import { connect } from "react-redux";
+import { compose } from "../../utils/compose";
 
 import Register from "./Register";
-import { userLogin } from "../../actions/actions";
-import { getTags } from "../../selectors";
+import withTags from "../../hocs/withTags";
+import withSession from "../../hocs/withSession";
 
-const mapDispatchToProps = {
-  userLogin
-};
-
-const mapStateToProps = state => ({
-  tags: getTags(state)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default compose(withSession, withTags)(Register);

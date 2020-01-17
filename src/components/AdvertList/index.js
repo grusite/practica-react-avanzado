@@ -1,3 +1,1 @@
-import AdvertList from "./AdvertList";
-
-export default AdvertList;
+export { default } from "./AdvertList";

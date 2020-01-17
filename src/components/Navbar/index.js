@@ -1,17 +1,6 @@
-import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-
-import { userLogout } from "../../actions/actions";
-
+import { compose } from "../../utils/compose";
 import Navbar from "./Navbar";
-import { getUser } from "../../selectors";
+import withSession from "../../hocs/withSession";
 
-const mapDispatchToProps = {
-  userLogout
-};
-
-const mapStateToProps = state => ({
-  user: getUser(state)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Navbar));
+export default compose(withSession, withRouter)(Navbar);

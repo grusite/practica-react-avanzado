@@ -1,3 +1,1 @@
-import StatusMessages from "./StatusMessages";
-
-export default StatusMessages;
+export { default } from "./StatusMessages";
