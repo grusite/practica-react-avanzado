@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import {
   getAdverts,
   getAdvert,
-  getAdvertById,
   getUpdatedAdvert,
   getCreatedAdvert,
   getUi
@@ -15,10 +14,9 @@ import {
   createAdvert
 } from "../actions/actions";
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   adverts: getAdverts(state),
   advert: getAdvert(state),
-  advertById: getAdvertById(state)(ownProps.match.params.id),
   advertUpdated: getUpdatedAdvert(state),
   advertCreated: getCreatedAdvert(state),
   ui: getUi(state)

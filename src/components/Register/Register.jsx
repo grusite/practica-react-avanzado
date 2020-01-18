@@ -15,7 +15,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MySnackbarContentWrapper from "../StatusMessages/StatusMessages";
-import CircularProgress from "@material-ui/core/CircularProgress";
+
+import Form, { Input } from "../Form";
 
 import "./register.css";
 
@@ -32,78 +33,30 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {
-        isLoggedIn: false,
-        name: "",
-        surname: "",
-        tag: ""
-      },
       tags: this.props.tags,
-      remindMe: false,
-      success: false,
       infoMessage: false
     };
   }
 
-  handleChange = event => {
-    const { name, value } = event.target;
-
-    this.setState(prevState => ({
-      user: {
-        ...prevState.user,
-        [name]: value
-      }
-    }));
-  };
-
-  handleCheckbox = name => event => {
-    this.setState({ ...this.state, [name]: event.target.checked });
-  };
-
   handleSubmit = event => {
-    const { user, remindMe } = this.state;
-    event.preventDefault();
-    if (user.name && user.surname && user.tag) {
-      this.setState({ ...this.state, success: true });
-      this.props.userLogin(user.name, user.surname, user.tag, remindMe);
+    console.log("event", event);
+    const { name, surname, tag, remindMe } = event;
+    if (name && surname && tag) {
+      this.props.userLogin(name, surname, tag, remindMe);
     } else {
       this.setState({ ...this.state, infoMessage: true });
     }
   };
 
   handleClose = () => {
-    this.setState({ ...this.state, infoMessage: false, success: false });
+    this.setState({ ...this.state, infoMessage: false });
   };
 
   render() {
-    const { user, tags } = this.state;
+    const { tags } = this.state;
     let statusMessage = "";
-    let loadingButton = "";
 
-    if (this.state.success) {
-      statusMessage = (
-        <MySnackbarContentWrapper
-          onClose={this.handleClose}
-          variant="success"
-          className="margin"
-          message="¡Registro correcto!"
-        />
-      );
-
-      loadingButton = (
-        <Button
-          id="submit-no-material"
-          type="submit"
-          className="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          disabled
-        >
-          <CircularProgress />
-        </Button>
-      );
-    } else if (this.state.infoMessage) {
+    if (this.state.infoMessage) {
       statusMessage = (
         <MySnackbarContentWrapper
           onClose={this.handleClose}
@@ -124,33 +77,42 @@ class Register extends React.Component {
           <Typography component="h1" variant="h5">
             Registro
           </Typography>
-          <form className="form" noValidate onSubmit={this.handleSubmit}>
+          <Form
+            className="form"
+            noValidate
+            initialValue={{
+              name: "",
+              surname: "",
+              tag: "",
+              tags: this.props.tags,
+              remindMe: false,
+              infoMessage: false
+            }}
+            onSubmit={this.handleSubmit}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="fname"
+                <Input
                   name="name"
                   variant="outlined"
                   required
                   fullWidth
                   id="name"
-                  value={user.name}
-                  onChange={this.handleChange}
                   label="Nombre"
                   autoFocus
+                  component={TextField}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
+                <Input
                   variant="outlined"
                   required
                   fullWidth
                   id="surname"
                   label="Apellido"
                   name="surname"
-                  value={user.surname}
-                  onChange={this.handleChange}
                   autoComplete="lname"
+                  component={TextField}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -158,13 +120,11 @@ class Register extends React.Component {
                   <InputLabel htmlFor="outlined-tag-native-simple">
                     Tag
                   </InputLabel>
-                  <Select
+                  <Input
                     native
-                    onChange={this.handleChange}
-                    inputProps={{
-                      name: "tag",
-                      id: "outlined-tag-native-simple"
-                    }}
+                    name="tag"
+                    id="outlined-tag-native-simple"
+                    component={Select}
                   >
                     <option value="" />
                     {tags.map((tag, index) => (
@@ -172,38 +132,33 @@ class Register extends React.Component {
                         {tag}
                       </option>
                     ))}
-                  </Select>
+                  </Input>
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
                 {statusMessage}
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      value="remindMe"
-                      onChange={this.handleCheckbox("remindMe")}
-                      color="primary"
-                    />
-                  }
+                <Input
+                  type="checkbox"
+                  name="remindMe"
+                  control={<Checkbox value="remindMe" color="primary" />}
                   label="Quiero mantener mi sesión activa"
+                  component={FormControlLabel}
                 />
               </Grid>
             </Grid>
-            {loadingButton || (
-              <Button
-                id="submit-no-material"
-                type="submit"
-                className="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-              >
-                Registrate
-              </Button>
-            )}
-          </form>
+            <Button
+              id="submit-no-material"
+              type="submit"
+              className="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+            >
+              Registrate
+            </Button>
+          </Form>
         </div>
         <Box mt={5}>
           <Copyright />

@@ -17,7 +17,4 @@ export const getUpdatedAdvert = state => getAdverts(state).advertUpdated;
 
 export const getCreatedAdvert = state => getAdverts(state).advertCreated;
 
-export const getAdvertById = state => advertId =>
-  getAdverts(state).adverts.find(advert => advert._id === advertId);
-
 export const getUi = state => getAdverts(state).ui;
