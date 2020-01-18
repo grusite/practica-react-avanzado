@@ -8,8 +8,9 @@ import adverts from "./adverts";
 
 describe("Login reducer ", () => {
   it("should return the initial state", () => {
-    expect(adverts(undefined, {})).toEqual({
+    expect(adverts(undefined, { type: "" })).toEqual({
       adverts: [],
+      tags: [],
       ui: {
         isFetching: false,
         error: null

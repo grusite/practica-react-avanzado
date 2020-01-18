@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App should render a App component 1`] = `
+<ErrorBoundary>
+  <Switch>
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(Connect(Register))",
+          "type": [Function],
+        }
+      }
+      path="/register"
+    />
+    <Connect(PrivateRoute)
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(AdvertDetail)",
+          "type": [Function],
+        }
+      }
+      path="/advert/:id"
+    />
+    <Connect(PrivateRoute)
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(Connect(createUpdateAdvert))",
+          "type": [Function],
+        }
+      }
+      path="/create"
+    />
+    <Connect(PrivateRoute)
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(Connect(createUpdateAdvert))",
+          "type": [Function],
+        }
+      }
+      path="/update/:id"
+    />
+    <Connect(PrivateRoute)
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(Connect(Home))",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/"
+    />
+    <Connect(PrivateRoute)
+      component={[Function]}
+    />
+  </Switch>
+</ErrorBoundary>
+`;

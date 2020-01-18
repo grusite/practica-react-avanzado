@@ -56,12 +56,16 @@ function getModalStyle() {
   };
 }
 
-function Navbar(props) {
+export default function Navbar({ user, userLogout, history, ...props }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [modalStyle] = React.useState(getModalStyle);
   const [openModal, setOpen] = React.useState(false);
   const open = Boolean(anchorEl);
+
+  const goToCreateAdvert = () => {
+    history.push("/create");
+  };
 
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);
@@ -69,7 +73,7 @@ function Navbar(props) {
 
   const handleLogOut = () => {
     setAnchorEl(null);
-    props.userLogout();
+    userLogout();
   };
 
   const handleClose = () => {
@@ -95,7 +99,7 @@ function Navbar(props) {
               color="secondary"
               aria-label="add"
               className={classes.margin}
-              onClick={props.goTo}
+              onClick={goToCreateAdvert}
             >
               <AddIcon />
             </Fab>
@@ -138,7 +142,7 @@ function Navbar(props) {
                 <div style={modalStyle} className={classes.paper}>
                   <h2 id="simple-modal-title">Información de Usuario</h2>
                   <p id="simple-modal-description">
-                    Bienvenido a NodePop, {props.nombreUsuario}
+                    Bienvenido a NodePop, {user.name + " " + user.surname}
                   </p>
                 </div>
               </Modal>
@@ -150,27 +154,3 @@ function Navbar(props) {
     </div>
   );
 }
-
-class NavBarTest extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  goToCreateAdvert = () => {
-    this.props.history.push("/create");
-  };
-
-  render() {
-    const nombreUsuario = this.props.user.name + " " + this.props.user.surname;
-    return (
-      <Navbar
-        goTo={this.goToCreateAdvert}
-        nombreUsuario={nombreUsuario}
-        userLogout={this.props.userLogout}
-      />
-    );
-  }
-}
-
-export default NavBarTest;

@@ -1,3 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Home component test should render 1`] = `ShallowWrapper {}`;
+exports[`Home component test should render Home comp 1`] = `
+<Fragment>
+  <Connect(withRouter(Navbar)) />
+  <Connect(Filter)
+    onFilterChange={[Function]}
+    tagSelected="lifestyle"
+  />
+  <AdvertList
+    adverts={
+      Array [
+        1,
+        2,
+        3,
+      ]
+    }
+    isFetching={true}
+  />
+</Fragment>
+`;

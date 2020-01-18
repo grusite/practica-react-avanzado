@@ -8,9 +8,11 @@ jest.mock("../services/AdsAPIService");
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const store = mockStore({});
+const dispatch = jest.fn();
+const history = { push: jest.fn() };
 
 describe("actions", () => {
-  it("should create a LOGIN action", () => {
+  it("should execute LOGIN action and push to home", () => {
     const name = "Jorge";
     const surname = "Martín";
     const tag = "lifestyle";
@@ -22,7 +24,12 @@ describe("actions", () => {
       tag
     };
 
-    expect(actions.login(name, surname, tag)).toEqual(expectedAction);
+    actions.userLogin(name, surname, tag)(dispatch, store.getState, {
+      history
+    });
+
+    expect(dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(history.push).toHaveBeenCalledWith("/");
   });
 
   it("should create a LOGOUT action", () => {
@@ -30,7 +37,12 @@ describe("actions", () => {
       type: TYPES.LOGOUT
     };
 
-    expect(actions.logout()).toEqual(expectedAction);
+    actions.userLogout()(dispatch, store.getState, {
+      history
+    });
+
+    expect(dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(history.push).toHaveBeenCalledWith("/");
   });
 
   it("should create a Fetching Request action", () => {
@@ -89,47 +101,56 @@ describe("actions", () => {
   describe("fetchAdverts", () => {
     const adverts = [1, 2, 3];
     const error = "Error fetching adverts";
-    const dispatch = jest.fn();
 
-    advertServices.filterAdverts
+    const getAdverts = advertServices.filterAdverts
       .mockResolvedValueOnce(adverts)
       .mockRejectedValueOnce(error);
 
-    beforeEach(() => {
-      dispatch.mockClear();
-    });
-
-    beforeEach(() => {
-      store.clearActions();
-    });
-
     describe("when getAdverts resolves", () => {
-      it("should dispatch success action using store mock function", async () => {
-        const expectedActions = [
-          {
-            type: TYPES.FETCH_ADVERTS_REQUEST
-          },
-          {
-            type: TYPES.FETCH_ADVERTS_SUCCESS,
-            adverts
-          }
-        ];
+      const params = "tag=lifestyle";
+      actions.fetchAdverts(params)(dispatch);
 
-        await store.dispatch(actions.fetchAdverts());
-        expect(store.getActions()).toEqual(expectedActions);
+      it("should dispatch request action using store mock function", async () => {
+        const expectedRequestActions = {
+          type: TYPES.FETCH_ADVERTS_REQUEST
+        };
+
+        expect(dispatch).toHaveBeenNthCalledWith(1, expectedRequestActions);
+      });
+
+      it("should call api service", () => {
+        expect(getAdverts).toHaveBeenCalled();
+      });
+
+      it("should dispatch success action using store mock function", async () => {
+        const expectedSuccessActions = {
+          type: TYPES.FETCH_ADVERTS_SUCCESS,
+          adverts
+        };
+
+        expect(dispatch).toHaveBeenNthCalledWith(3, expectedSuccessActions);
       });
     });
 
     describe("when getAdverts rejectes", () => {
-      it("should dispatch failure action using dispatch mock function", async () => {
-        await actions.fetchAdverts()(dispatch, adverts);
-        expect(dispatch).toHaveBeenNthCalledWith(1, {
+      const params = "tag=lifestyle";
+      actions.fetchAdverts(params)(dispatch);
+
+      it("should dispatch request action using store mock function", async () => {
+        const expectedRequestActions = {
           type: TYPES.FETCH_ADVERTS_REQUEST
-        });
-        expect(dispatch).toHaveBeenNthCalledWith(2, {
+        };
+
+        expect(dispatch).toHaveBeenNthCalledWith(1, expectedRequestActions);
+      });
+
+      it("should dispatch failure action using dispatch mock function", async () => {
+        const expectedFailureActions = {
           type: TYPES.FETCH_ADVERTS_FAILURE,
           error
-        });
+        };
+
+        expect(dispatch).toHaveBeenNthCalledWith(4, expectedFailureActions);
       });
     });
   });

@@ -1,42 +1,48 @@
 import { LOGIN, LOGOUT } from "../actions/actionTypes";
 
-import login from "./login";
+import user from "./user";
 
 describe("Login reducer", () => {
   it("should return the initial state", () => {
-    expect(login(undefined, {})).toEqual({
+    expect(user(undefined, {})).toEqual({
       isLoggedIn: false,
       name: "",
       surname: "",
-      tag: ""
+      tag: "",
+      remindMe: false
     });
   });
 
   it("should handle LOGIN", () => {
     expect(
-      login([], {
+      user([], {
         type: LOGIN,
+        isLoggedIn: true,
         name: "Jorge",
         surname: "Martín",
-        tag: "lifestyle"
+        tag: "lifestyle",
+        remindMe: true
       })
     ).toEqual({
       isLoggedIn: true,
       name: "Jorge",
       surname: "Martín",
-      tag: "lifestyle"
+      tag: "lifestyle",
+      remindMe: true
     });
   });
 
   it("should handle LOGOUT", () => {
     expect(
-      login([], {
+      user([], {
         type: LOGOUT
       })
     ).toEqual({
       isLoggedIn: false,
       name: "",
-      surname: ""
+      surname: "",
+      tag: "",
+      remindMe: false
     });
   });
 });

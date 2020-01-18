@@ -90,18 +90,6 @@ export const fetchAdvertsFailure = error => ({
   error
 });
 
-// export const fetchAdverts = () => {
-//   return async function(dispatch, params) {
-//     dispatch(fetchAdvertsRequest());
-//     try {
-//       const adverts = await filterAdverts(params);
-//       dispatch(fetchAdvertsSuccess(adverts));
-//     } catch (error) {
-//       dispatch(fetchAdvertsFailure(error));
-//     }
-//   };
-// };
-
 export const fetchAdverts = params => async dispatch => {
   dispatch(fetchAdvertsRequest());
   try {

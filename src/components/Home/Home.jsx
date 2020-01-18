@@ -5,8 +5,7 @@ import AdvertList from "../AdvertList";
 import Filter from "../Filter";
 import "./home.css";
 
-export default function Home(props) {
-  const { adverts, user, fetchAdverts, ui } = props;
+export default function Home({ adverts, user, fetchAdverts, ui }) {
   const [params, setParams] = useState(user.tag ? `tag=${user.tag}` : "");
   const [tagSelected, setTagSelected] = useState(user.tag);
 
