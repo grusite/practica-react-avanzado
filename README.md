@@ -31,7 +31,7 @@ Your app is ready to be deployed!
 The web page seems intuitive, but just in case I will explain the functionality:
 
 - The entry point is the register page.
-- Every route the user try to go, if not registered, will go directly to the register. If registered, will go to the home page.
+- Every route the user try to go are proteted, so if not registered, will go directly to the register.
 - Is user doesn't click in "Quiero mantener mi sesión activa" once refreshed the session will expire.
 - Once registration is done, it will load the list of adverts filtered with the tag given in the process.
 - The user can also filter the list by using the form given in the home.
@@ -43,14 +43,14 @@ The web page seems intuitive, but just in case I will explain the functionality:
 
 ### Adding hooks, HOC, Render Props...
 
-- For this exercise I have added Redux in the whole app for managing both: the user info and the loaded adverts.
-- I have only refactored my Home component to add hooks (useState and useEffect).
-- As I used Material Ui for my application, and therefore I do not have inputs, so I did not see necesary to use HOCs or Render Props. I decided to use only Hooks.
+- For this exercise I have added Redux in the whole app for managing both: the user info, loaded tags and the loaded adverts.
+- In order to use hooks and hocs I have refactored some components as Register, Home and Navbar.
+- More technical details in Correccion document in the same repo.
 
 ### Tests
 
 - I have placed the \*.test.js under the file to be tested.
-- I have decided to test all my actions, reducers and the Home component.
+- I have decided to test some of my actions, reducers and the Home and App components.
 
 ## Author
 
