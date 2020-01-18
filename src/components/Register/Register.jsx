@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -29,143 +29,125 @@ function Copyright() {
   );
 }
 
-class Register extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tags: this.props.tags,
-      infoMessage: false
-    };
-  }
+export default function Register({ tags, userLogin }) {
+  const [statusMessage, setStatusMessage] = useState("");
 
-  handleSubmit = event => {
-    console.log("event", event);
+  const handleSubmit = event => {
     const { name, surname, tag, remindMe } = event;
     if (name && surname && tag) {
-      this.props.userLogin(name, surname, tag, remindMe);
+      userLogin(name, surname, tag, remindMe);
     } else {
-      this.setState({ ...this.state, infoMessage: true });
-    }
-  };
-
-  handleClose = () => {
-    this.setState({ ...this.state, infoMessage: false });
-  };
-
-  render() {
-    const { tags } = this.state;
-    let statusMessage = "";
-
-    if (this.state.infoMessage) {
-      statusMessage = (
+      setStatusMessage(
         <MySnackbarContentWrapper
-          onClose={this.handleClose}
+          onClose={handleClose}
           variant="warning"
           className="margin"
           message="Por favor, rellene todos los campos"
         />
       );
     }
+  };
 
-    return (
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className="paper">
-          <Avatar id="avatar-no-material" className="avatar">
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Registro
-          </Typography>
-          <Form
-            className="form"
-            noValidate
-            initialValue={{
-              name: "",
-              surname: "",
-              tag: "",
-              tags: this.props.tags,
-              remindMe: false,
-              infoMessage: false
-            }}
-            onSubmit={this.handleSubmit}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Input
-                  name="name"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="name"
-                  label="Nombre"
-                  autoFocus
-                  component={TextField}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Input
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="surname"
-                  label="Apellido"
-                  name="surname"
-                  autoComplete="lname"
-                  component={TextField}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl variant="outlined" className="formControl">
-                  <InputLabel htmlFor="outlined-tag-native-simple">
-                    Tag
-                  </InputLabel>
-                  <Input
-                    native
-                    name="tag"
-                    id="outlined-tag-native-simple"
-                    component={Select}
-                  >
-                    <option value="" />
-                    {tags.map((tag, index) => (
-                      <option key={index} value={tag}>
-                        {tag}
-                      </option>
-                    ))}
-                  </Input>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                {statusMessage}
-              </Grid>
-              <Grid item xs={12}>
-                <Input
-                  type="checkbox"
-                  name="remindMe"
-                  control={<Checkbox value="remindMe" color="primary" />}
-                  label="Quiero mantener mi sesión activa"
-                  component={FormControlLabel}
-                />
-              </Grid>
+  const handleClose = () => {
+    setStatusMessage("");
+  };
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className="paper">
+        <Avatar id="avatar-no-material" className="avatar">
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Registro
+        </Typography>
+        <Form
+          className="form"
+          noValidate
+          initialValue={{
+            name: "",
+            surname: "",
+            tag: "",
+            remindMe: false
+          }}
+          onSubmit={handleSubmit}
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Input
+                name="name"
+                variant="outlined"
+                required
+                fullWidth
+                id="name"
+                label="Nombre"
+                autoFocus
+                component={TextField}
+              />
             </Grid>
-            <Button
-              id="submit-no-material"
-              type="submit"
-              className="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-            >
-              Registrate
-            </Button>
-          </Form>
-        </div>
-        <Box mt={5}>
-          <Copyright />
-        </Box>
-      </Container>
-    );
-  }
+            <Grid item xs={12} sm={6}>
+              <Input
+                variant="outlined"
+                required
+                fullWidth
+                id="surname"
+                label="Apellido"
+                name="surname"
+                autoComplete="lname"
+                component={TextField}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl variant="outlined" className="formControl">
+                <InputLabel htmlFor="outlined-tag-native-simple">
+                  Tag
+                </InputLabel>
+                <Input
+                  native
+                  name="tag"
+                  id="outlined-tag-native-simple"
+                  component={Select}
+                >
+                  <option value="" />
+                  {tags.map((tag, index) => (
+                    <option key={index} value={tag}>
+                      {tag}
+                    </option>
+                  ))}
+                </Input>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              {statusMessage}
+            </Grid>
+            <Grid item xs={12}>
+              <Input
+                type="checkbox"
+                name="remindMe"
+                control={<Checkbox value="remindMe" color="primary" />}
+                label="Quiero mantener mi sesión activa"
+                component={FormControlLabel}
+              />
+            </Grid>
+          </Grid>
+          <Button
+            id="submit-no-material"
+            type="submit"
+            className="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+          >
+            Registrate
+          </Button>
+        </Form>
+      </div>
+      <Box mt={5}>
+        <Copyright />
+      </Box>
+    </Container>
+  );
 }
 
-export default Register;
+// export default Register;
